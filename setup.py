@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 
-setup(name='skeleton-platform',
+setup(name='humans-of-paris',
       url='',
       author='',
       package_dir={'': 'src'},
