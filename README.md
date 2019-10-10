@@ -1,6 +1,6 @@
 # Humans of Paris 1900
 
-Project of Foundation of digital humanities (DH-405). The description is available [here](http://fdh.epfl.ch/index.php/Sketch_of_Humans_of_Paris_1900) 
+Project of Foundation of digital humanities (DH-405). The description is available [here](http://fdh.epfl.ch/index.php/Sketch_of_Humans_of_Paris_1900). 
 
 Group: Leonore Guillain; Haeeun Kim; Liamarcia Bifano
 
