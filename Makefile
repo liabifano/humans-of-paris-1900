@@ -19,7 +19,9 @@ install: clean-build clean-pyc
 	@conda create -y --name $(PROJECT_NAME) --file conda.txt
 	@echo "\n --- Creating env: $(PROJECT_NAME) in $(shell which conda) ---\n"
 	@echo "\n--- Installing dependencies ---\n"
-	bash -c "source activate $(PROJECT_NAME) && pip install -e . && pip install -U -r requirements.txt && source deactivate"
+	bash -c "git clone https://github.com/raphaelBarman/fdh-gallica.git ./tmp/ && cd ./tmp/ && pip install -U -r requirements.txt && python setup.py install && cd .."
+	bash -c "source activate $(PROJECT_NAME) && pip install -U -r requirements.txt && pip install -e ."
+	bash -c "conda deactivate"
 
 
 clean-build:
