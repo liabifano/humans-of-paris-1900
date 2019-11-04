@@ -4,15 +4,36 @@ Project of Foundation of digital humanities (DH-405). The description is availab
 
 Group: Leonore Guillain; Haeeun Kim; Liamarcia Bifano
 
-
-## Setup
-
-To create the conda environment and run the unit tests:
-
-```bash
-make install
-make test
-```
+## How to use it
+   
+   ### Run application locally (dockerized)
+   
+   You need: 
+   - [conda](https://docs.conda.io/en/latest/) >= 4.7.12
+   - [python](https://www.python.org/downloads/release/python-366/) >= 3.6.6
+   - [Docker command line](https://docs.docker.com/engine/reference/commandline/cli/) >= 18.09.2
+   
+   then run: 
+   ```
+   conda --version
+   python --version
+   docker --version
+   make install
+   make run
+   ```
+   then open [here](http://127.0.0.1:5000/)
+   
+   ### Run application locally (without docker)
+   ```
+   make install
+   bash run-gunicorn.sh
+   ```
+   then open [here](http://127.0.0.1:5000/)
+   
+   
+   ### Deploy pre-built application in AWS
+   WIP
+   
 
 If you want to use the environment with jupyter notebook run:
  ```bash
