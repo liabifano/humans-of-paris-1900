@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from app.models import Project
+from app.models import AllData
 
 
 # def project_index(request):

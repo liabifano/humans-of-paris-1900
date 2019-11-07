@@ -61,12 +61,13 @@ def get_wiki_info(x):
     except:
         return empty_return
 
+def get_image_url(url):
+    return url + '/f1.lowres'
 
 def get_gallica_image(url):
     # TODO: get better image and crop it
     try:
-        image_url = url + '/f1.lowres'
-        response = requests.get(image_url, stream=True)
+        response = requests.get(url, stream=True)
         img = Image.open(BytesIO(response.content))
         img.thumbnail((150, 150), Image.LANCZOS)
         return img
@@ -84,6 +85,7 @@ def get_data(gallica_output):
     result['date'] = filtered['dc:date']
     result['name'] = filtered['dc:subject'].apply(get_name)
     result['wiki_name'] = result['name'].apply(get_wiki_name)
+    result['gallica_image_url'] = result.gallica_url.apply(get_image_url)
 
     p = Pool(8)
     wiki_info = pd.DataFrame(p.map(get_wiki_info, result['wiki_name'].values))
@@ -99,7 +101,7 @@ def get_data(gallica_output):
             'wiki_n_content']] = wiki_info
 
     p = Pool(8)
-    images = p.map(get_gallica_image, result['gallica_url'].values)
+    images = p.map(get_gallica_image, result['gallica_image_url'].values)
     p.close()
     p.join()
 
@@ -111,7 +113,7 @@ def get_data(gallica_output):
 if __name__ == '__main__':
     raw_data_path = os.path.join(os.path.abspath(os.path.join(__file__, '../../../..')),
                                  'data/raw_df.pkl')
-    print('Reading raw data from: {}'.format(raw_data_path))
+    print('Preprocessing data...')
     pickle_in = open(raw_data_path,"rb")
     gallica_output = pickle.load(pickle_in)
     result = get_data(gallica_output[:20])

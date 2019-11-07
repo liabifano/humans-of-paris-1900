@@ -19,21 +19,23 @@ help:
 
 
 docker-build:
-	@docker build -t ${REMOTE_REPO}/${DOCKER_NAME}:${DOCKER_LABEL} .
-	@docker run ${REMOTE_REPO}/${DOCKER_NAME}:${DOCKER_LABEL} /bin/bash -c "cd $(PROJECT_NAME); source activate $(PROJECT_NAME); py.test --verbose --color=yes $(TEST_PATH)"
+	@echo "WIP"
 
 
 docker-push:
-	@docker tag ${REMOTE_REPO}/${DOCKER_NAME}:${DOCKER_LABEL} ${REMOTE_REPO}/${DOCKER_NAME}:${GIT_MASTER_HEAD_SHA}
-	@echo "${DOCKER_PASSWORD}" | docker login -u="${DOCKER_USERNAME}" --password-stdin
-	@docker push ${REMOTE_REPO}/${DOCKER_NAME}:${GIT_MASTER_HEAD_SHA}
+	@echo "WIP"
 
 docker-run:
-	@docker run -p 5000:5000 ${REMOTE_REPO}/${DOCKER_NAME}:${DOCKER_LABEL}
+	@echo "WIP"
+
+bootstrap-db:
+	@bash -c "source activate humans-of-paris && \
+	          python humans_of_paris/app/migrations/pre_processing.py && \
+	          python humans_of_paris/manage.py makemigrations && \
+	          python humans_of_paris/manage.py migrate"
 
 run:
-	/bin/sh run-gunicorn.sh
-
+	@echo "WIP"
 
 test: clean-pyc
 	@echo "\n--- If the env $(PROJECT_NAME) doesn't exist, run 'make install' before ---\n"n
@@ -47,10 +49,6 @@ install: clean-build clean-pyc
 	@echo "\n --- Creating env: $(PROJECT_NAME) in $(shell which conda) ---\n"
 	@echo "\n--- Installing dependencies ---\n"
 	bash -c "source activate $(PROJECT_NAME) && pip install -U -r requirements.txt && conda deactivate"
-
-
-deploy-latest-pushed:
-	bash .aws-deploy.sh
 
 
 clean-build:
