@@ -19,7 +19,8 @@ from app.models import Project
 
 
 def people(request):
-    return render(request, 'people.html')
+    context = None
+    return render(request, 'people.html', context)
 
 
 def person(request, id):
@@ -28,8 +29,10 @@ def person(request, id):
 
 
 def search(request):
-    return render(request, 'search.html')
+    context = None
+    return render(request, 'search.html', context)
 
 
 def upload(request):
-    return render(request, 'upload.html')
+    context = None
+    return render(request, 'upload.html', context)
