@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'app',
 ]
 
@@ -77,7 +78,7 @@ WSGI_APPLICATION = 'humans_of_paris.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'data/db.sqlite3'),
+        'NAME': os.path.join(os.path.join(BASE_DIR, '../'), 'data/db.sqlite3'),
     }
 }
 

@@ -4,10 +4,17 @@ import pickle
 from io import BytesIO
 import requests
 from multiprocessing import Pool
+import numpy as np
 
 import pandas as pd
 import wikipedia as wiki
 from PIL import Image
+
+from app.models import AllData
+
+
+RAW_DATA_PATH = os.path.join(os.path.abspath(os.path.join(__file__, '../../../../')),
+                             'data/raw_df.pkl')
 
 
 def filter_df(df):
@@ -64,6 +71,7 @@ def get_wiki_info(x):
 def get_image_url(url):
     return url + '/f1.lowres'
 
+
 def get_gallica_image(url):
     # TODO: get better image and crop it
     try:
@@ -73,6 +81,14 @@ def get_gallica_image(url):
         return img
     except:
         pass
+
+
+def get_tags(x):
+    # TODO: FAKE function for now
+    return {
+        'tag_sex': np.random.choice(['F','M'], 1)[0],
+        'tag_profession': np.random.choice(['artist', 'actor', 'photographer'], 1)[0]
+    }
 
 
 def get_data(gallica_output):
@@ -86,6 +102,7 @@ def get_data(gallica_output):
     result['name'] = filtered['dc:subject'].apply(get_name)
     result['wiki_name'] = result['name'].apply(get_wiki_name)
     result['gallica_image_url'] = result.gallica_url.apply(get_image_url)
+    result[['tag_sex', 'tag_profession']] = pd.DataFrame([get_tags(x) for x in result.id.values])
 
     p = Pool(8)
     wiki_info = pd.DataFrame(p.map(get_wiki_info, result['wiki_name'].values))
@@ -110,10 +127,21 @@ def get_data(gallica_output):
     return list(result.T.to_dict().values())
 
 
-if __name__ == '__main__':
-    raw_data_path = os.path.join(os.path.abspath(os.path.join(__file__, '../../../..')),
-                                 'data/raw_df.pkl')
+def populate(data):
+    for d in data:
+        r = AllData(d)
+        r.save()
+
+
+def run():
     print('Preprocessing data...')
-    pickle_in = open(raw_data_path,"rb")
+    pickle_in = open(RAW_DATA_PATH,"rb")
     gallica_output = pickle.load(pickle_in)
     result = get_data(gallica_output[:20])
+
+    print('Inserting records in database...')
+    populate(result)
+
+    print('Done!')
+
+

@@ -14,3 +14,4 @@ gunicorn==19.7.1
 eventlet==0.21.0
 gevent==1.4.0
 pandas==0.25.2
+django-extensions==2.2.5

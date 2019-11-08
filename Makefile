@@ -8,7 +8,7 @@ GIT_MASTER_HEAD_SHA:=$(shell git rev-parse --short=7 --verify HEAD)
 
 help:
 	@echo "install - install project in dev mode using conda"
-	@echo "run - run app locally"
+	@echo "run-app - run app locally"
 	@echo "test - run tests quickly within env: $(PROJECT_NAME)"
 	@echo "docker-build - build and run dockerfile"
 	@echo "docker-run - run app in docker"
@@ -21,7 +21,6 @@ help:
 docker-build:
 	@echo "WIP"
 
-
 docker-push:
 	@echo "WIP"
 
@@ -30,9 +29,14 @@ docker-run:
 
 bootstrap-db:
 	@bash -c "source activate humans-of-paris && \
-	          python humans_of_paris/app/migrations/pre_processing.py && \
+	          yes | python humans_of_paris/manage.py reset_db && \
 	          python humans_of_paris/manage.py makemigrations && \
-	          python humans_of_paris/manage.py migrate"
+	          python humans_of_paris/manage.py migrate && \
+	          python humans_of_paris/manage.py runscript populate_db"
+
+run-app:
+	@bash -c "source activate humans-of-paris && \
+	          python humans_of_paris/manage.py runserver"
 
 run:
 	@echo "WIP"
