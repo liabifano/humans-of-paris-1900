@@ -117,19 +117,21 @@ def get_data(gallica_output):
             'wiki_n_references',
             'wiki_n_content']] = wiki_info
 
-    p = Pool(8)
-    images = p.map(get_gallica_image, result['gallica_image_url'].values)
-    p.close()
-    p.join()
+    result = result.where((pd.notnull(result)), None)
 
-    result['image'] = pd.Series(images)
+    # p = Pool(8)
+    # images = p.map(get_gallica_image, result['gallica_image_url'].values)
+    # p.close()
+    # p.join()
+    #
+    # result['image'] = pd.Series(images)
 
     return list(result.T.to_dict().values())
 
 
 def populate(data):
     for d in data:
-        r = AllData(d)
+        r = AllData(**d)
         r.save()
 
 
@@ -137,11 +139,9 @@ def run():
     print('Preprocessing data...')
     pickle_in = open(RAW_DATA_PATH,"rb")
     gallica_output = pickle.load(pickle_in)
-    result = get_data(gallica_output[:20])
+    result = get_data(gallica_output)
 
     print('Inserting records in database...')
     populate(result)
 
     print('Done!')
-
-

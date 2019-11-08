@@ -1,7 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block page_content %}
-<h1>people</h1>
+{% block body %}
+
+{% for d in data %}
+    <div>
+        <a href="{{ d.wiki_url }}"  target="_blank"><h1>{{ d.name }}</h1></a>
+        <p>{{ d.name }} has {{ d.wiki_n_images}} images in his wikipedia page and {{ d.id__count }} in <a href="person_records/{{ d.name }}"  target="_blank">L'atelier de Nadar</a></p>
+        <p>Tags: {{ d.tag_sex__max }}; {{ d.tag_profession__max }}</p>
+
+        <img src="{{ d.gallica_image_url__max }}"/>
+
+        <br><br><br>
+    </div>
+
+{% endfor %}
+
 </div>
 {% endblock %}

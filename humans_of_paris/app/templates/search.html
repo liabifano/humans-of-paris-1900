@@ -1,7 +1,33 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block page_content %}
-<h1>Search - Not Implemented</h1>
+{% block body %}
+
+<div id="#forms">
+
+    <form method="post" id="form_program">
+
+        <select class="selectpicker"
+                multiple
+                data-actions-box="true"
+                data-selected-text-format="count > 4"
+                data-live-search="true"
+                name="tags"
+                title="Tags"
+                id="tag">
+            {% for tag in tags %}
+            <option data-tokens="{{ tag }}">{{tag}}</option>
+            {% endfor %}
+        </select>
+
+
+        <button id="submit" type="submit" class="btn btn-primary active"
+                form="form_program" value="Submit" aria-pressed="true">Submit</button>
+
+    </form>
+
+    <h1>Not Implemented</h1>
 </div>
+
+
 {% endblock %}

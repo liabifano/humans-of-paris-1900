@@ -29,9 +29,9 @@ docker-run:
 
 bootstrap-db:
 	@bash -c "source activate humans-of-paris && \
-	          yes | python humans_of_paris/manage.py reset_db && \
-	          python humans_of_paris/manage.py makemigrations && \
-	          python humans_of_paris/manage.py migrate && \
+	          printf 'yes' | python humans_of_paris/manage.py reset_db && \
+	          python humans_of_paris/manage.py makemigrations app && \
+	          python humans_of_paris/manage.py migrate app && \
 	          python humans_of_paris/manage.py runscript populate_db"
 
 run-app:
