@@ -54,6 +54,6 @@ If you want to use the environment with jupyter notebook run:
        ├── app             <- Web Application with data model and views 
            ├── migrations  <- Data Model and Data Migrations
            ├── scripts     <- Script to collect, treat and populate the tables
-           ├── templates   <- HTML, CSS and javascripts responsible for Frontend
+           ├── templates   <- HTML, CSS and javascript responsible for Frontend
     
     
