@@ -45,12 +45,15 @@ If you want to use the environment with jupyter notebook run:
 
 
 ## Project Structure
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data           
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    ├── src                <- Source code for use in this project, mainly with the visualization
+    ├── Makefile           <- Makefile with commands like `make populate-db` or `make run`
+    ├── data               <- raw data collected from gallica api
+    ├── notebooks          <- Jupyter notebooks. Data exploration.
+    ├── requirements.txt   <- Python requirements to build the virtual environment
+    ├── Dockerfile         <- To deploy the application. Different python versions and special dependencies
+    ├── humans_of_paris    <- source code for use in this project, mainly with the app and web interface
+       ├── app             <- Web Application with data model and views 
+           ├── migrations  <- Data Model and Data Migrations
+           ├── scripts     <- Script to collect, treat and populate the tables
+           ├── templates   <- HTML, CSS and javascripts responsible for Frontend
+    
+    
