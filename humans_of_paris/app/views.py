@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from app.models import AllData
+from app.models import AllData, UploadImage
 from django.db.models import Max, Count
-
+from django.http import HttpResponse, HttpResponseForbidden
 
 
 def people(request):
@@ -41,5 +41,11 @@ def search(request):
 
 
 def upload(request):
-    context = None
-    return render(request, 'upload.html', context)
+    if request.method == 'POST':
+        form = UploadImage(request.POST, request.FILES)
+        import pdb; pdb.set_trace()
+        form.save()
+        return HttpResponse('image upload success')
+    else:
+        context = None
+        return render(request, 'upload.html', context)

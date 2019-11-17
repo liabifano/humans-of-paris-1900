@@ -1,4 +1,9 @@
+import os
 from django.db import models
+
+from django import forms
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # TODO: improve the data model
@@ -22,4 +27,11 @@ class AllData(models.Model):
     tag_sex = models.CharField(max_length=2, null=True)
     tag_profession = models.CharField(max_length=20, null=True)
     gallica_image_url = models.URLField()
-    # image = models.ImageField(upload_to='images', blank=True)
+    # image = models.ImageField(upload_to='gallica',
+    #                           null=True,
+    #                           blank=True)
+
+
+class UploadImage(models.Model):
+    file = models.ImageField()
+

@@ -12,6 +12,8 @@ from PIL import Image
 
 from app.models import AllData
 
+from humans_of_paris.settings import MEDIA_ROOT
+
 
 RAW_DATA_PATH = os.path.join(os.path.abspath(os.path.join(__file__, '../../../../')),
                              'data/raw_df.pkl')
@@ -78,6 +80,7 @@ def get_gallica_image(url):
         response = requests.get(url, stream=True)
         img = Image.open(BytesIO(response.content))
         img.thumbnail((150, 150), Image.LANCZOS)
+        img.save(MEDIA_ROOT + '/gallica/{}.JPEG'.format(url.split('/')[-2]), quality=60)
         return img
     except:
         pass
@@ -119,12 +122,10 @@ def get_data(gallica_output):
 
     result = result.where((pd.notnull(result)), None)
 
-    # p = Pool(8)
-    # images = p.map(get_gallica_image, result['gallica_image_url'].values)
-    # p.close()
-    # p.join()
-    #
-    # result['image'] = pd.Series(images)
+    p = Pool(8)
+    p.map(get_gallica_image, result['gallica_image_url'].values)
+    p.close()
+    p.join()
 
     return list(result.T.to_dict().values())
 
@@ -137,9 +138,9 @@ def populate(data):
 
 def run():
     print('Preprocessing data...')
-    pickle_in = open(RAW_DATA_PATH,"rb")
+    pickle_in = open(RAW_DATA_PATH, 'rb')
     gallica_output = pickle.load(pickle_in)
-    result = get_data(gallica_output)
+    result = get_data(gallica_output[0:20])
 
     print('Inserting records in database...')
     populate(result)
