@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from app.models import AllData, UploadImage
+from app.models import AllData, Tags, UploadImage
 from django.db.models import Max, Count
 from django.http import HttpResponse, HttpResponseForbidden
 
@@ -34,14 +34,10 @@ def person_records(request, name):
     return render(request, 'person_records.html', context={'data': data})
 
 
-def search(request):
-    context = {'tags':
-                   ['female', 'male', 'artist', 'actor', 'photographer']}
-    return render(request, 'search.html', context)
-
-
 def home(request):
-    context = None
+    context = {'tags':
+                   [x[0] for x in Tags.objects.order_by().values_list('tag').distinct().iterator()]}
+
     return render(request, 'main.html', context)
 
 
@@ -49,9 +45,11 @@ def cluster(request):
     context=None
     return render(request, 'tnse.html', context)
 
+
 def yourdoppelganger(request):
     context=None
     return render(request, 'doppelganger.html', context)
+
 
 def upload(request):
     if request.method == 'POST':

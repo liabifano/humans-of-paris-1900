@@ -10,7 +10,8 @@ import pandas as pd
 import wikipedia as wiki
 from PIL import Image
 
-from app.models import AllData
+from app.models import AllData, Tags
+from app.scripts import tags
 
 from humans_of_paris.settings import MEDIA_ROOT
 
@@ -140,9 +141,12 @@ def run():
     print('Preprocessing data...')
     pickle_in = open(RAW_DATA_PATH, 'rb')
     gallica_output = pickle.load(pickle_in)
-    result = get_data(gallica_output[0:20])
+    all_tags = tags.get_tags(gallica_output)
+    [Tags(**t).save() for t in all_tags]
 
-    print('Inserting records in database...')
-    populate(result)
-
-    print('Done!')
+    # result = get_data(gallica_output[0:20])
+    #
+    # print('Inserting records in database...')
+    # populate(result)
+    #
+    # print('Done!')
