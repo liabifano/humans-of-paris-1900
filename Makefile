@@ -8,7 +8,7 @@ GIT_MASTER_HEAD_SHA:=$(shell git rev-parse --short=7 --verify HEAD)
 
 help:
 	@echo "install - install project in dev mode using conda"
-	@echo "run-app - run app locally"
+	@echo "run - run app locally"
 	@echo "test - run tests quickly within env: $(PROJECT_NAME)"
 	@echo "docker-build - build and run dockerfile"
 	@echo "docker-run - run app in docker"
@@ -34,12 +34,10 @@ bootstrap-db:
 	          python humans_of_paris/manage.py migrate app && \
 	          python humans_of_paris/manage.py runscript populate_db"
 
-run-app:
-	@bash -c "source activate humans-of-paris && \
-	          python humans_of_paris/manage.py runserver"
 
 run:
-	@echo "WIP"
+	@bash -c "source activate humans-of-paris && \
+    	          python humans_of_paris/manage.py runserver"
 
 test: clean-pyc
 	@echo "\n--- If the env $(PROJECT_NAME) doesn't exist, run 'make install' before ---\n"n
