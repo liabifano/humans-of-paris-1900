@@ -40,6 +40,19 @@ def search(request):
     return render(request, 'search.html', context)
 
 
+def home(request):
+    context = None
+    return render(request, 'main.html', context)
+
+
+def cluster(request):
+    context=None
+    return render(request, 'tnse.html', context)
+
+def yourdoppelganger(request):
+    context=None
+    return render(request, 'doppelganger.html', context)
+
 def upload(request):
     if request.method == 'POST':
         form = UploadImage(request.POST, request.FILES)
