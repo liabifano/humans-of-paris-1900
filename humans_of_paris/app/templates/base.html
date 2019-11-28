@@ -16,8 +16,71 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.11/dist/js/i18n/defaults-en_US.min.js"></script>
     <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
 
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/album/">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+
+    <script type="text/javascript" async="" src="/static/ga.js"></script>
+
+
+    <script src="/static/tsne.js"></script>
+    <link href="/static/tnse.css" rel="stylesheet" type="text/css">
+
+    <!-- JS syntax highlighting -->
+    <script type="text/javascript" src="/static/shCore.js"></script>
+    <script type="text/javascript" src="/static/shBrushJScript.js"></script>
+    <link type="text/css" rel="stylesheet" href="/static/shCoreDefault.css">
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+        <a class="navbar-brand" href="/"><h1>Humans of Paris</h1></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/facemap">FaceMap</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/yourdoppelganger">Find your doppelgänger</a>
+                </li>
+            </ul>
+
+            <form autocomplete="off" action="" class="form-inline mt-2 mt-md-0">
+                <div class="autocomplete mr-sm-2" style="width:300px;">
+                    <input id="myTag" type="text" name="myTag" placeholder="Search Tag">
+                </div>
+                <button class="btn btn-secondary my-2" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <script src="/static/autocomplete.js"></script>
+    <script>
+        var tags = {{ tags | safe }};
+        autocomplete(document.getElementById("myTag"), tags);
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+    <!--<script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"></script>')</script>-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
 </head>
 <body style="margin: 20px">
 {% block body %}{% endblock %}
 </body>
+
+<footer class="text-muted">
+    <div class="container">
+        <p class="float-right">
+            <a href="#">Back to top</a>
+        </p>
+        <p>Humans of Paris is part of a project for Foundations of Digital Humanities</p>
+    </div>
+</footer>
+
 </html>
