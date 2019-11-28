@@ -104,29 +104,29 @@ def get_data(gallica_output):
     result['gallica_url'] = filtered['dc:identifier'].apply(get_url)
     result['date'] = filtered['dc:date']
     result['name'] = filtered['dc:subject'].apply(get_name)
-    result['wiki_name'] = result['name'].apply(get_wiki_name)
-    result['gallica_image_url'] = result.gallica_url.apply(get_image_url)
-    result[['tag_sex', 'tag_profession']] = pd.DataFrame([get_tags(x) for x in result.id.values])
-
-    p = Pool(8)
-    wiki_info = pd.DataFrame(p.map(get_wiki_info, result['wiki_name'].values))
-    p.close()
-    p.join()
-
-    result[['wiki_url',
-            'wiki_n_langs',
-            'wiki_n_categories',
-            'wiki_n_links',
-            'wiki_n_images',
-            'wiki_n_references',
-            'wiki_n_content']] = wiki_info
-
-    result = result.where((pd.notnull(result)), None)
-
-    p = Pool(8)
-    p.map(get_gallica_image, result['gallica_image_url'].values)
-    p.close()
-    p.join()
+    # result['wiki_name'] = result['name'].apply(get_wiki_name)
+    # result['gallica_image_url'] = result.gallica_url.apply(get_image_url)
+    # result[['tag_sex', 'tag_profession']] = pd.DataFrame([get_tags(x) for x in result.id.values])
+    #
+    # p = Pool(8)
+    # wiki_info = pd.DataFrame(p.map(get_wiki_info, result['wiki_name'].values))
+    # p.close()
+    # p.join()
+    #
+    # result[['wiki_url',
+    #         'wiki_n_langs',
+    #         'wiki_n_categories',
+    #         'wiki_n_links',
+    #         'wiki_n_images',
+    #         'wiki_n_references',
+    #         'wiki_n_content']] = wiki_info
+    #
+    # result = result.where((pd.notnull(result)), None)
+    #
+    # p = Pool(8)
+    # p.map(get_gallica_image, result['gallica_image_url'].values)
+    # p.close()
+    # p.join()
 
     return list(result.T.to_dict().values())
 
@@ -144,9 +144,9 @@ def run():
     all_tags = tags.get_tags(gallica_output)
     [Tags(**t).save() for t in all_tags]
 
-    # result = get_data(gallica_output[0:20])
-    #
-    # print('Inserting records in database...')
-    # populate(result)
-    #
-    # print('Done!')
+    result = get_data(gallica_output)
+
+    print('Inserting records in database...')
+    populate(result)
+
+    print('Done!')

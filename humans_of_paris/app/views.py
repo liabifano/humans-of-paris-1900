@@ -35,19 +35,30 @@ def person_records(request, name):
 
 
 def home(request):
-    context = {'tags':
-                   [x[0] for x in Tags.objects.order_by().values_list('tag').distinct().iterator()]}
+    tags =[x[0] for x in Tags.objects.order_by().values_list('tag').distinct().iterator()]
+
+    if request.method=='POST':
+        tag = request.POST.get('myTag')
+        ids = [i.id for i in Tags.objects.filter(tag=tag).iterator()][0:8]
+    else:
+        ids = ['btv1b' + i.id for i in AllData.objects.order_by('id').iterator()][100:130]
+
+    context = {'tags': tags, 'ids': ids}
 
     return render(request, 'main.html', context)
 
 
 def cluster(request):
-    context=None
+    tags =[x[0] for x in Tags.objects.order_by().values_list('tag').distinct().iterator()]
+    context = {'tags': tags}
+
     return render(request, 'tnse.html', context)
 
 
 def yourdoppelganger(request):
-    context=None
+    tags =[x[0] for x in Tags.objects.order_by().values_list('tag').distinct().iterator()]
+    context = {'tags': tags}
+
     return render(request, 'doppelganger.html', context)
 
 

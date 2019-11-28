@@ -50,7 +50,7 @@
                 </li>
             </ul>
 
-            <form autocomplete="off" action="" class="form-inline mt-2 mt-md-0">
+            <form autocomplete="off" method="post" action="/" class="form-inline mt-2 mt-md-0">{% csrf_token %}
                 <div class="autocomplete mr-sm-2" style="width:300px;">
                     <input id="myTag" type="text" name="myTag" placeholder="Search Tag">
                 </div>
