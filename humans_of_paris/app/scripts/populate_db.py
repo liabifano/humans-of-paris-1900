@@ -10,8 +10,8 @@ import pandas as pd
 import wikipedia as wiki
 from PIL import Image
 
-from app.models import AllData, Tags
-from app.scripts import tags
+from app.models import Gallica, Wiki, Tags
+from app.scripts import tags, wiki_search
 
 from humans_of_paris.settings import MEDIA_ROOT
 
@@ -28,7 +28,7 @@ def get_url(x):
     return x[0] if len(x)==2 else x
 
 def get_id(x):
-    return x[0][-9:] if len(x)==2 else x[-9:]
+    return x[0][-14:] if len(x)==2 else x[-14:]
 
 def get_name(x):
     # TODO: improve it and get a list of name instead
@@ -103,30 +103,6 @@ def get_data(gallica_output):
     result['id'] = filtered['dc:identifier'].apply(get_id)
     result['gallica_url'] = filtered['dc:identifier'].apply(get_url)
     result['date'] = filtered['dc:date']
-    result['name'] = filtered['dc:subject'].apply(get_name)
-    # result['wiki_name'] = result['name'].apply(get_wiki_name)
-    # result['gallica_image_url'] = result.gallica_url.apply(get_image_url)
-    # result[['tag_sex', 'tag_profession']] = pd.DataFrame([get_tags(x) for x in result.id.values])
-    #
-    # p = Pool(8)
-    # wiki_info = pd.DataFrame(p.map(get_wiki_info, result['wiki_name'].values))
-    # p.close()
-    # p.join()
-    #
-    # result[['wiki_url',
-    #         'wiki_n_langs',
-    #         'wiki_n_categories',
-    #         'wiki_n_links',
-    #         'wiki_n_images',
-    #         'wiki_n_references',
-    #         'wiki_n_content']] = wiki_info
-    #
-    # result = result.where((pd.notnull(result)), None)
-    #
-    # p = Pool(8)
-    # p.map(get_gallica_image, result['gallica_image_url'].values)
-    # p.close()
-    # p.join()
 
     return list(result.T.to_dict().values())
 
@@ -138,15 +114,27 @@ def populate(data):
 
 
 def run():
-    print('Preprocessing data...')
     pickle_in = open(RAW_DATA_PATH, 'rb')
     gallica_output = pickle.load(pickle_in)
+
+    all_gallica = get_data(gallica_output)
     all_tags = tags.get_tags(gallica_output)
-    [Tags(**t).save() for t in all_tags]
+    all_wiki = wiki_search.get_wiki(gallica_output)
 
-    result = get_data(gallica_output)
+    for g in all_gallica:
+        gallica_object = Gallica(**g)
+        gallica_object.save()
 
-    print('Inserting records in database...')
-    populate(result)
+        this_tags = [x for x in all_tags if x['id'] == g['id']]
+        if this_tags:
+            for tag in this_tags:
+                tag['gallica'] = gallica_object
+                Tags(**tag).save()
+
+        this_wiki = [x for x in all_wiki if x['id'] == g['id']]
+        if this_wiki:
+            for wikii in this_wiki:
+                wikii['gallica'] = gallica_object
+                Wiki(**wikii).save()
 
     print('Done!')

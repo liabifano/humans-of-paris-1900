@@ -9,18 +9,14 @@
         <div class="container">
 
             <div class="row">
-                {% for id in ids %}
+                {% for record in records %}
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <img src="/static/images/{{ id }}.jpg" width="100%" height="225">
+                        <img src="/static/images/{{ record.gallica.id }}.jpg" width="100%" height="225">
                         <div class="card-body">
-                            <p class="card-text">{{ id }}</p>
+                            <p class="card-text">{{ record.gallica.id }}</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                </div>
-                                <small class="text-muted">{{ id }}</small>
+                                <small class="text-muted">{{ record.tags }}</small>
                             </div>
                         </div>
                     </div>
