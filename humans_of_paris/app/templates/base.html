@@ -38,6 +38,7 @@
       background-color:#504947;
       font-family: "Quando";
       padding:0px 16px;
+      color: white;
     }
 
     .humans{
@@ -47,6 +48,10 @@
 
     ::placeholder {
         color: blue;
+      }
+
+      footer{
+        bottom : 0;
       }
 
    </style>
@@ -98,14 +103,17 @@
 {% block body %}{% endblock %}
 </body>
 
-<footer class="text-muted">
-    <div class="container">
-        <p>Do you have any other ideas? Let's us know <a href="https://github.com/liabifano/humans-of-paris-1900/issues/new?assignees=&labels=&template=feature_request.md&title=" target="_blank">here</a></p>
-        <p>Some unexpected behavior? Could you give us more details <a href="https://github.com/liabifano/humans-of-paris-1900/issues/new?assignees=&labels=&template=bug_report.md&title=" target="_blank">here</a></p>
-        <br>
+<footer class="text-muted  mt-auto py-3 perfect" style="border-color:#504947;">
+
+    <div class="container perfect" style='font-size:12px; text-align:center'>
+
+        <span>Do you have any other ideas? Let's us know <a style='color:white;text-decoration:underline' href="https://github.com/liabifano/humans-of-paris-1900/issues/new?assignees=&labels=&template=feature_request.md&title=" target="_blank">here</a></span>
+        <br/>
+        <span>Some unexpected behavior? Could you give us more details <a style='color:white;text-decoration:underline' href="https://github.com/liabifano/humans-of-paris-1900/issues/new?assignees=&labels=&template=bug_report.md&title=" target="_blank">here</a></span>
         <p class="float-right">
-            <a href="#">Back to top</a>
+            <a style='color:white;text-decoration:underline' href="#">Back to top</a>
         </p>
+        <br>
         <p>Humans of Paris is part of a project for Foundations of Digital Humanities</p>
     </div>
 </footer>
