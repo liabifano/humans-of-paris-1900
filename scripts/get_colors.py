@@ -4,6 +4,7 @@ import requests
 from PIL import Image
 import pandas as pd
 import numpy as np
+import json
 
 sample = pd.read_csv('identifiers.csv', header=None)
 
@@ -44,6 +45,7 @@ for doc in sample[1]:
     avg_3 = image_median(avg_3)
 
     avg_color = np.median(np.median(img[0:10, 0:10, :], axis=1), axis=0)
-    colors.append({'source': doc, 'avg1': avg_1, 'avg2': avg_2, 'avg3': avg_3})
+    colors.append({'source': doc, 'avg1': list(avg_1), 'avg2': list(avg_2), 'avg3': list(avg_3)})
 
-    pd.DataFrame(colors).to_csv('colors.csv')
+    with open('colors.json', 'w') as f:
+        json.dump(colors, f)

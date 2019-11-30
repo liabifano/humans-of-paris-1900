@@ -1,7 +1,6 @@
 import pandas as pd
 import re
 from itertools import chain
-from itertools import compress
 
 # some manual work
 
@@ -202,11 +201,9 @@ def get_tags(gallica_output):
 
     _prenames = df2.subjects.apply(name_filter)
 
-    not_names = _prenames.apply(not_name).tolist()
     is_names = _prenames.apply(is_name).tolist()
 
     is_names = list(set(chain.from_iterable(is_names)))
-    not_names = list(set(chain.from_iterable(not_names)))
 
     names = []
     for n in is_names:
@@ -216,17 +213,11 @@ def get_tags(gallica_output):
     names = list(set(chain.from_iterable(names)))
     names = list(set(list(map(lambda x: x.strip(), names))))
 
-    mask_tags = list(map((lambda x: ',' not in x), not_names))
-    subject_tags = list(compress(not_names, mask_tags))
-
     df2['title_broken'] = df2.title.apply(lambda x: re.findall('[\S]+', x))
 
     tag_df = pd.DataFrame(df2.id)
     tag_df['title'] = df2['title_broken'].apply(lambda x: exclude_title_name(x, names))
     tag_df['subject'] = df2.subjects.apply(name_filter).apply(not_name)
-
-    tags_title_ = tag_df.title.apply(pd.Series).merge(tag_df, right_index=True, left_index=True) \
-        .drop(['title', 'subject'], axis=1).melt(id_vars=['id'], value_name='tags').drop('variable', axis=1)
 
     tags_subject_ = tag_df.subject.apply(pd.Series).merge(tag_df, right_index=True, left_index=True) \
         .drop(['title', 'subject'], axis=1).melt(id_vars=['id'], value_name='tags').drop('variable', axis=1)
