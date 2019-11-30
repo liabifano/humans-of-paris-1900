@@ -17,7 +17,7 @@
     <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
 
     <link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/style.css" rel="stylesheet">
+    <!-- <link href="/static/style.css" rel="stylesheet"> -->
 
     <script type="text/javascript" async="" src="/static/ga.js"></script>
 
@@ -28,11 +28,32 @@
     <!-- JS syntax highlighting -->
     <script type="text/javascript" src="/static/shCore.js"></script>
     <script type="text/javascript" src="/static/shBrushJScript.js"></script>
-    <link type="text/css" rel="stylesheet" href="/static/shCoreDefault.css">
-    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <!-- <link type="text/css" rel="stylesheet" href="/static/shCoreDefault.css"> -->
+    <!-- <script type="text/javascript">SyntaxHighlighter.all();</script> -->
+    <style>
+    @import url(https://fonts.google.com/specimen/Quando?selection.family=Quando);
+    @import url(https://fonts.google.com/specimen/DM+Serif+Display);
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">Humans of Paris</a>
+    .perfect{
+      background-color:#504947;
+      font-family: "Quando";
+      padding:0px 16px;
+    }
+
+    .humans{
+      font-family: "DM Serif Display";
+      text-transform: uppercase;
+    }
+
+    ::placeholder {
+        color: blue;
+      }
+
+   </style>
+
+
+    <nav class="navbar navbar-expand-md navbar-dark perfect";>
+        <a class="navbar-brand humans" href="/">Humans of Paris</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,21 +61,25 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
+
+
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/facemap">FaceMap</a>
+                    <a class="nav-link btn btn-secondary my-2" style="margin:0px 12px;padding:.375rem .75rem;border-radius:0;border-color:white;background-color:#504947;color:white" href="/facemap">FaceMap</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/yourdoppelganger">Find your doppelgänger</a>
+                    <a class="nav-link btn btn-secondary my-2"style="margin:0px 12px;padding:.375rem .75rem;border-radius:0;border-color:white;background-color:#504947;color:white" href="/yourdoppelganger">Find your doppelgänger</a>
                 </li>
             </ul>
 
-            <form autocomplete="off" method="post" action="/" class="form-inline mt-2 mt-md-0">{% csrf_token %}
-                <div class="autocomplete mr-sm-2">
-                    <input class="form-control mr-sm-2" id="myTag" type="text" name="myTag" placeholder="Search Tag">
+            <form autocomplete="off"method="post" action="/" class="form-inline mt-2 mt-md-0">{% csrf_token %}
+                <div class="autocomplete mr-sm-2" style="margin-right:0px;">
+                    <input class="form-control mr-sm-2" style="margin-right:0px;border:unset;border-radius:0;background-clip:unset" id="myTag" type="text" name="myTag" placeholder="Search Tag">
                 </div>
-                <button class="btn btn-secondary my-2" type="submit">Search</button>
+                <button class="btn btn-secondary my-2" style="border-radius:0;border-color:white;background-color:#504947" type="submit">Search</button>
             </form>
+
+
         </div>
     </nav>
 
