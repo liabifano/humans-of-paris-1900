@@ -4,7 +4,10 @@ import pandas as pd
 
 def get_doppelganger(target, k=4):
     """get k most similar persons in facial vectors
-        returns reference id 
+
+        target: vector from openface
+        returns reference id
+        
     """
 
     # load face_vectors
