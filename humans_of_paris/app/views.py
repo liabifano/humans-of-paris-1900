@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from app.models import Gallica, Tags
-from django.db.models import Max, Count
-from django.http import HttpResponse, HttpResponseForbidden
+from django.core.paginator import Paginator
+
 
 
 def people(request):
@@ -25,13 +25,14 @@ def home(request):
 
     if request.method=='POST':
         tag = request.POST.get('myTag')
-        ids = [i.gallica.id for i in Tags.objects.filter(tag=tag).iterator()][0:8]
+        ids = Paginator(Tags.objects.filter(tag=tag), 9)
     else:
-        records = [{'gallica': i,
-                    'tags': ' '.join([x.tag for x in i.tags_set.iterator()])}
-                   for i in list(Gallica.objects.order_by('id').iterator())[100:130]]
+        ids = Paginator(Gallica.objects.order_by('id'), 9)
 
-    context = {'tags': tags, 'records': records}
+    page = request.GET.get('page')
+    ids = ids.get_page(page)
+
+    context = {'tags': tags, 'ids': ids}
 
     return render(request, 'main.html', context)
 
