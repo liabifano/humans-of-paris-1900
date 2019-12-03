@@ -4,72 +4,19 @@ from itertools import chain
 
 # some manual work
 
-taglist_title_final = ['député', 'ambassade', 'ministre', 'bordas',
-                       'compositeur', 'général', 'chinois', 'journaliste',
-                       'opéra', 'sculpteur', 'vaudeviliste', 'peintre',
-                       'colonel', 'auteur', 'historien', 'comédien', 'amiral',
-                       'baretta', 'prince', 'chimiste', 'avocat',
-                       'piccolo', 'comédie', 'romancier', 'abbé',
-                       'écrivain', 'capitaine', 'navigation', 'vaudeville',
-                       'châtelet', 'explorateur', 'aéronaute',
-                       'critique', 'cantatrice', 'princesse', 'poète', 'violoniste',
-                       'docteur', 'journal', 'marquis',
-                       'dessinateur', 'musicien', 'chanteur',
-                       'publiciste', 'chef', 'couturier', 'lanthelme', 'famille',
-                       'opéra-comique', 'écuyère', 'actrice',
-                       'napoléon', 'directeur', 'ecrivain', 'suite', 'anglaise',
-                       'palais-royal', 'folies', 'cirque', 'ecuyère',
-                       'théâtre-français', 'gymnase', 'frère',
-                       'roi', 'folies-dramatiques',
-                       'mousquetaires', 'bouffes-parisiens', 'professeur', 'groupe',
-                       'littérateur', 'président', 'maison',
+taglist_title_final = ['abbé', 'actrice', 'africaine', 'ambassade', 'ambassadeur', 'amiral', 'américaine', 'anglaise',
+ 'artiste', 'assassin', 'assommoir', 'auteur', 'avocat', 'aérienne', 'aéronaute', 'bergère', 'bicycliste', 'bouffes-parisiens', 'bourgeois',
+ 'camarade', 'cantatrice', 'cantinière', 'capitaine', 'chanteur', 'chef', 'chevalier', 'chevallier', 'chimiste', 'chinois', 'châtelet', 'chèvres',
+ 'cirque', 'clairette', 'cliquette', 'colonel', 'comique', 'commune', 'compositeur', 'comédie-française', 'comédien', 'conservatoire', 'couronne',
+ 'cousin-cousine', 'couturier', 'critique', "chef d'orchestre", 'danseuse', 'dessinateur', 'directeur', 'docteur', 'dramatique', 'droit', 'décorateur',
+ 'député', 'ecrivain', 'ecuyère', 'explorateur', 'fantaisies-parisiennes', 'folies', 'folies-dramatiques','française', 'frère', 'galles', 'gymnase',
+ 'général', 'hanovre', 'historien', 'hussard', 'italien', 'japonaise', 'journaliste', 'joyeuseté', "académie", "arlésienne", "impératrice",
+ 'lettres', 'littérateur', 'lyrique', 'majesté', 'marchande', 'marquis', 'marquise', 'mascotte', 'ministre', 'mousquetaires', 'musicien', 'musique',
+ 'napoléon', 'navigation', 'odéon', 'opéra', 'opéra-comique', 'palais-royal', 'parisienne', 'patard', 'patart', 'peintre', 'perse', 'phèdre', 'piccolo',
+ 'politique', 'potter', 'poète', 'prince', 'princesse', 'professeur', 'président', 'publiciste', 'pyrenné', 'pyréné', 'roi', 'romancier', 'royal',
+ 'russe', 'république', 'sculpteur', 'seigneur', 'serment', 'suite', 'suzette', 'suédoise', 'sénateur', 'séville', 'tambour-major', 'théâtre-français',
+ 'trouvère', 'tzigane', 'vaudevill', 'ventre', 'violoniste', 'écrivain', 'écuyère']
 
-                       'lyrique', 'cluny', 'reichemberg', 'folies-dramatiques', 'frères',
-
-                       'chevallier', 'danseuse',
-                       'décorateur', 'ambassadeur',
-                       'politique', 'saint', 'république',
-                       'droit',
-                       'marquise',
-                       'sénateur',
-                       'artiste', 'cloches',
-                       'majesté', 'japonaise', 'dramatique',
-                       'comique', 'française', 'aérienne', 'conservatoire', 'bourgeois',
-                       'italien', 'royal', "l'institut",
-                       "d'orchestre", 'comédie-française',
-                       'revue', 'bergère', "d'hiver", 'potter', 'dramatiques',
-                       'suédoise', "l'académie", 'opéra-comique',
-                       'orphée',
-
-                       'folies-dramatiques',
-                       'vaudevill', 'odéon', 'phèdre', 'assassin', 'décoré',
-                       'saint-martin', 'trouvère', 'vénus', "l'arlésienne",
-                       'assommoir',
-                       'cantinière', "s'amuse", 'amour', 'opéra', 'serment', 'rouge',
-
-                       'mascotte', 'gymnase',
-                       'châtelet',
-
-                       'africaine',
-                       'juanita', 'perse', 'musique',
-                       'nouveau', 'lettres', 'russe', 'breuil', 'lantelme', 'hanovre',
-                       'pyrénées', 'parisienne', 'ventre',
-
-                       'chevalier', 'séville', 'américaine', "l'impératrice",
-                       'commune', 'cigale', 'saturnales', 'cendrillonnette', 'tzigane',
-
-                       'camarade', 'marchande', 'bicyclistes',
-                       'sans-gêne', 'cousin-cousine', "d'avignon", 'pilules', 'fétiche',
-                       'cliquette',
-                       'patard', 'patart', 'joyeusetés', 'fantaisies-parisiennes',
-                       'dramatiques', 'carreau', 'suzette', 'enfers', 'école',
-
-                       'trèfle',
-
-                       'tambour-major', 'couronne',
-                       'diable',
-                       'pyrennées', 'christ', 'hussard', 'galles', "l'année", 'chèvres',
-                       'seigneur', 'clairette']
 
 
 def filter_tags(x):
