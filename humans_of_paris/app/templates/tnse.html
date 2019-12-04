@@ -81,7 +81,7 @@
                     return d[1];
                 });
             var zoomListener = d3.behavior.zoom()
-                .scaleExtent([0.05, 10])
+                .scaleExtent([0.1, 30])
                 .center([0, 0])
                 .on("zoom", zoomHandler);
             zoomListener(svg);
