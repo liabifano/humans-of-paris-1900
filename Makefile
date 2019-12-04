@@ -19,13 +19,10 @@ help:
 
 
 docker-build:
-	@echo "WIP"
-
-docker-push:
-	@echo "WIP"
+	@docker build -t ${REMOTE_REPO}/${DOCKER_NAME}:${DOCKER_LABEL} .
 
 docker-run:
-	@echo "WIP"
+	@docker run -it -p 8000:8000 -p 9000:9000 ${REMOTE_REPO}/${DOCKER_NAME}:${DOCKER_LABEL}
 
 bootstrap-db:
 	@bash -c "source activate humans-of-paris && \
