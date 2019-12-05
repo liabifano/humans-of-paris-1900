@@ -42,6 +42,15 @@ test: clean-pyc
 	bash -c "source activate $(PROJECT_NAME) &&  py.test --verbose --color=yes $(TEST_PATH)"
 
 
+docker-build-openface:
+	@echo "Don't forget to clone https://github.com/liabifano/openface"
+	@bash -c "cd openface/ && docker build -t openface ."
+
+
+docker-run-openface:
+	@docker run -p 5000:5000 -t openface
+
+
 install: clean-build clean-pyc
 	-@conda env remove -yq -n $(PROJECT_NAME) # ignore if fails
 	@conda create -y --name $(PROJECT_NAME) --file conda.txt
@@ -56,6 +65,8 @@ clean-build:
 	rm -fr .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -f {} +
+
+
 
 
 clean-pyc:
