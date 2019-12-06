@@ -11,7 +11,10 @@ def people(request):
 
 
 def record(request, id):
-    return
+    record_data = Gallica.objects.all().get(id=id)
+    context = {'record': record_data}
+    import pdb; pdb.set_trace()
+    return render(request, 'record.html', context)
 
 
 def person_records(request, name):

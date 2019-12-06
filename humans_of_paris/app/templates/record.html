@@ -1,12 +1,26 @@
 {% extends "base.html" %}
-{% load static %}
+{% block title %}{{ record.id }}{% endblock %}
 
 {% block body %}
 
-<div>
-    <img src="{{ data.gallica_image_url }}"/>
+<br><br><br>
+<div class="col-md-4">
+    <img src="/static/images/{{ record.id }}.jpg" width="50%" height="225">
 </div>
 
 
-</div>
+<ul>
+    <li>
+        {{ record.id }}
+    </li>
+    <li>
+        {{ record.wiki_set.summary_en }}
+    </li>
+    <li>
+        {{ record.tags_set }}
+    </li>
+
+</ul>
+
 {% endblock %}
+
