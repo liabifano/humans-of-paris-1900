@@ -2,10 +2,12 @@
 {% load static %}
 
 {% block body %}
-<form method="post" enctype="multipart/form-data">{% csrf_token %}
-    <p>
-        <input id="id_image" type="file" class="" name="image">
-    </p>
-    <input type="submit" value="Submit" />
+<br><br>
+<form method="post" action="" id="form-upload" enctype="multipart/form-data"/>{% csrf_token %}
+<input  type="file" name="image" accept=".jpg">
+<button id="submit-image" type="submit" class="btn btn-secundary active"
+        form="form-upload" value="submit" aria-pressed="true">Upload Image
+</button>
 </form>
+<br><br>
 {% endblock %}

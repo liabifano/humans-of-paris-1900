@@ -1,6 +1,10 @@
+import os
 from django.shortcuts import render
 from app.models import Gallica, Tags
 from django.core.paginator import Paginator
+
+from PIL import Image
+from humans_of_paris.settings import STATICFILES_DIRS
 
 
 
@@ -48,8 +52,20 @@ def cluster(request):
 
 
 def yourdoppelganger(request):
-    tags =[x[0] for x in Tags.objects.order_by().values_list('tag').distinct().iterator()]
-    context = {'tags': tags}
+    if request.method == 'GET':
+        context = None
+        return render(request, 'upload.html', context)
 
-    return render(request, 'doppelganger.html', context)
+    else:
+        # image = Image.open(request.FILES['image'])
+        # image_path = os.path.join(STATICFILES_DIRS[0], 'yourphoto.jpg')
+        # image.save(image_path, 'jpg')
+        # get file
+        ### need most famous
+        # make post to http://localhost:5000
+        # get most close ids
+        context = {'ids': ['btv1b530503232', 'btv1b530503232', 'btv1b530503232',
+                           'btv1b530503232', 'btv1b530503232', 'btv1b530503232']}
+        # context['your_image'] = image_path
+        return render(request, 'doppelganger.html', context)
 
