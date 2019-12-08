@@ -6,7 +6,27 @@
 <main role="main">
 
     <div class="album py-5 bg-light">
+
+        <div id="#forms">
+            <form method="post" id="form_program" action="/"> {% csrf_token %}
+
+                <div class="form-group col-md-12">
+                    <select class="form-control"
+                            name="order"
+                            title="Order by..."
+                            onchange="this.form.submit()";
+                            id="order">
+                        <option selected disabled>Order by...</option>
+                        <option value="1">1</option>
+                        <option value="1">2</option>
+                        <option value="1">2</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
         <div class="container">
+
 
             <div class="row">
 

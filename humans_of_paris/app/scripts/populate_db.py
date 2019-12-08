@@ -3,7 +3,7 @@ import re
 import pickle
 from io import BytesIO
 import requests
-from multiprocessing import Pool
+
 import numpy as np
 
 import pandas as pd
