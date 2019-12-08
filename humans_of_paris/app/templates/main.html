@@ -10,6 +10,7 @@
         <div id="#forms">
             <form method="post" id="form_program" action="/"> {% csrf_token %}
 
+
                 <div class="form-group col-md-12">
                     <select class="form-control"
                             name="order"
@@ -17,9 +18,8 @@
                             onchange="this.form.submit()";
                             id="order">
                         <option selected disabled>Order by...</option>
-                        <option value="1">1</option>
-                        <option value="1">2</option>
-                        <option value="1">2</option>
+                        <option value="rank">n images in wiki</option>
+                        <option value="TDB">TDB</option>
                     </select>
                 </div>
             </form>

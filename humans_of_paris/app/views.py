@@ -2,7 +2,7 @@ import os
 import subprocess
 import ast
 from django.shortcuts import render
-from app.models import Gallica, Tags
+from app.models import Gallica, Tags, Person, Wiki
 from django.core.paginator import Paginator
 
 from PIL import Image
@@ -17,22 +17,27 @@ def record(request, id):
 
 
 def home(request):
-    DEFAULT_ORDER = 'id'
+    DEFAULT_ORDER = 'rank'
     tags =[x[0] for x in Tags.objects.order_by().values_list('tag').distinct().iterator()]
 
     if request.method=='POST':
         if request.POST.get('myTag'):
             tag = request.POST.get('myTag')
-            ids = Paginator(Tags.objects.filter(tag=tag).order_by(DEFAULT_ORDER), 9)
+            ids = Paginator([x.gallica for x in Tags.objects.filter(tag=tag).iterator()], 9)
 
         elif request.POST.get('order'):
-            ids = Paginator(Gallica.objects.order_by(DEFAULT_ORDER), 9)
+            new_order = request.POST.get('order')
+            gallicas = [list(x.person.gallica_set.values()) for x in Wiki.objects.all().order_by(new_order).iterator()]
+            gallicas = [g[0] for g in gallicas if g]
+            ids = Paginator(gallicas, 9)
 
         else:
             ids = Paginator(Gallica.objects.order_by(DEFAULT_ORDER), 9)
 
     else:
-        ids = Paginator(Gallica.objects.order_by(DEFAULT_ORDER), 9)
+        gallicas = [list(x.person.gallica_set.values()) for x in Wiki.objects.all().order_by(DEFAULT_ORDER).iterator()]
+        gallicas = [g[0] for g in gallicas if g]
+        ids = Paginator(gallicas, 9)
 
     page = request.GET.get('page')
     ids = ids.get_page(page)
