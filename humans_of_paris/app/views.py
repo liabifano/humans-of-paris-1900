@@ -1,10 +1,13 @@
 import os
+import subprocess
+import ast
 from django.shortcuts import render
 from app.models import Gallica, Tags
 from django.core.paginator import Paginator
 
 from PIL import Image
 from humans_of_paris.settings import STATICFILES_DIRS
+from app.get_doppelganger import get_doppelganger
 
 
 
@@ -17,7 +20,6 @@ def people(request):
 def record(request, id):
     record_data = Gallica.objects.all().get(id=id)
     context = {'record': record_data}
-    import pdb; pdb.set_trace()
     return render(request, 'record.html', context)
 
 
@@ -57,15 +59,17 @@ def yourdoppelganger(request):
         return render(request, 'upload.html', context)
 
     else:
-        # image = Image.open(request.FILES['image'])
-        # image_path = os.path.join(STATICFILES_DIRS[0], 'yourphoto.jpg')
-        # image.save(image_path, 'jpg')
-        # get file
-        ### need most famous
-        # make post to http://localhost:5000
-        # get most close ids
-        context = {'ids': ['btv1b530503232', 'btv1b530503232', 'btv1b530503232',
-                           'btv1b530503232', 'btv1b530503232', 'btv1b530503232']}
-        # context['your_image'] = image_path
+        image = Image.open(request.FILES['image'])
+        image_path = os.path.join(STATICFILES_DIRS[0], 'tmp/yourphoto.png')
+        image.save(image_path)
+        cmd = ['curl', '-X', 'POST', '-F', 'image=@{}'.format(image_path), 'http://localhost:5000/get_vector']
+        your_vector = str(subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).communicate()[0]).split('\\n')[3]
+        your_vector = ast.literal_eval((ast.literal_eval(your_vector[:-1])['vector']))
+
+        closests = get_doppelganger(your_vector)
+
+        context = {'ids': closests,
+                   'your_image': image_path.split('/')[-1]}
+
         return render(request, 'doppelganger.html', context)
 
