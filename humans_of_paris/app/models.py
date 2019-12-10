@@ -16,17 +16,19 @@ class Person(models.Model):
     born = models.CharField(max_length=50, blank=True, null=True)
     died = models.CharField(max_length=50, blank=True, null=True)
 
-#
+
 class Gallica(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
     gallica_url = models.CharField(max_length=50)
     date = models.CharField(max_length=10)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-
+    n_images_wiki = models.FloatField(blank=True, null=True)
+    summary_size = models.FloatField(blank=True, null=True)
+    gender = models.CharField(max_length=10, blank=True, null=True)
 
 class Tags(models.Model):
     tag_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    gallica = models.ForeignKey(Gallica, on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
     tag = models.CharField(max_length=20, null=True)
 
 
