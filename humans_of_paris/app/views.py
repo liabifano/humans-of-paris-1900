@@ -23,7 +23,8 @@ def home(request):
     if request.method=='POST':
         if request.POST.get('myTag'):
             tag = request.POST.get('myTag')
-            ids = Paginator([x.gallica for x in Tags.objects.filter(tag=tag).iterator()], 9)
+            ids = Paginator([x.person.gallica_set.first()
+                             for x in Tags.objects.all().filter(tag=tag).iterator()], 9)
 
         elif request.POST.get('order'):
             new_order = request.POST.get('order')
@@ -33,7 +34,6 @@ def home(request):
             ids = Paginator(Gallica.objects.all().order_by('-' + DEFAULT_ORDER), 9)
 
     else:
-
         ids = Paginator(Gallica.objects.all().order_by('-' + DEFAULT_ORDER), 9)
 
     page = request.GET.get('page')

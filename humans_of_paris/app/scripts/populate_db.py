@@ -88,6 +88,7 @@ def run():
 
         for tt in this_tags:
             tt['person'] = p
+            del tt['name']
             Tags(**tt).save()
 
 
