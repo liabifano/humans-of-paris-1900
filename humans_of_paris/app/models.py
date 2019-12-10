@@ -28,7 +28,7 @@ class Gallica(models.Model):
 
 class Tags(models.Model):
     tag_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    gallica = models.ForeignKey(Gallica, on_delete=models.CASCADE)
+    gallica = models.ForeignKey(Person, on_delete=models.CASCADE)
     tag = models.CharField(max_length=20, null=True)
 
 

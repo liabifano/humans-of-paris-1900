@@ -3,6 +3,18 @@
 
 {% block body %}
 
+    <style>
+        .page-item.active .page-link{
+            background-color: #504947;
+            border-color: #504947;
+        }
+
+        .page-item .page-link{
+            color:#504947;
+        }
+
+    </style>
+
 <main role="main">
 
     <div class="album py-5 bg-light">
@@ -52,22 +64,33 @@
                 </div>
                 {% endfor %}
             </div>
-            <div class="pagination">
-                <span class="step-links">
-                {% if ids.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ ids.previous_page_number }}">previous</a>
-                {% endif %}
-            <span class="current">
-                Page {{ ids.number }} of {{ ids.paginator.num_pages }}.
-            </span>
+            <div aria-label="Page navigation example text-center">
+                <ul class="pagination justify-content-center">
+                    {% if ids.has_previous %}
+                        <li class="step-links page-item">
+                            <a class="page-link" href="?page=1">&laquo; first</a>
+                        </li>
+                        <li class="step-links page-item">
+                            <a class="page-link"  href="?page={{ ids.previous_page_number }}">previous</a>
+                        </li>
+                    {% endif %}
+                    <li class="current page-item active">
+                        <a class="page-link" >Page {{ ids.number }} of {{ ids.paginator.num_pages }}</a>
+                    </li>
 
-            {% if ids.has_next %}
-                <a href="?page={{ ids.next_page_number }}">next</a>
-                <a href="?page={{ ids.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-            </span>
+                    {% if ids.has_next %}
+                        <li class="step-links page-item">
+                            <a class="page-link"  href="?page={{ ids.next_page_number }}">next</a>
+                        </li>
+                        <li class="step-links page-item">
+                            <a class="page-link"  href="?page={{ ids.paginator.num_pages }}">last &raquo;</a>
+                        </li>
+                    {% endif %}
+                    </span>
+                </ul>
+                </nav>
             </div>
+
         </div>
     </div>
 
