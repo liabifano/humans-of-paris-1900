@@ -3,27 +3,24 @@
 
 {% block body %}
 
+<style>
+.page-item.active .page-link{
+  background-color: #504947;
+  border-color: #504947;
+}
+
+.page-item .page-link{
+  color:#504947;
+}
+
+
+
+</style>
+
+
 <main role="main">
 
-    <div class="album py-5 bg-light">
-
-        <div id="#forms">
-            <form method="post" id="form_program" action="/"> {% csrf_token %}
-
-
-                <div class="form-group col-md-12">
-                    <select class="form-control"
-                            name="order"
-                            title="Order by..."
-                            onchange="this.form.submit()";
-                            id="order">
-                        <option selected disabled>Order by...</option>
-                        <option value="rank">n images in wiki</option>
-                        <option value="TDB">TDB</option>
-                    </select>
-                </div>
-            </form>
-        </div>
+    <div class="album bg-light" style="padding-top:2rem;">
 
         <div class="container">
 
@@ -33,7 +30,7 @@
                 {% for record in ids %}
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <img src="/static/images/{{ record.id }}.jpg" width="100%" height="225">
+                        <img src="/static/images/{{ record.id }}.jpg" width="100%">
                         <div class="card-body">
                             <p class="card-text"><a href="/record/{{ record.id }}">{{ record.id }}</a></p>
                             <div class="d-flex justify-content-between align-items-center">
@@ -44,26 +41,53 @@
                 </div>
                 {% endfor %}
             </div>
-            <div class="pagination">
-                <span class="step-links">
-                {% if ids.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ ids.previous_page_number }}">previous</a>
-                {% endif %}
-            <span class="current">
-                Page {{ ids.number }} of {{ ids.paginator.num_pages }}.
-            </span>
 
-            {% if ids.has_next %}
-                <a href="?page={{ ids.next_page_number }}">next</a>
-                <a href="?page={{ ids.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-            </span>
+            <div id="#forms">
+                <form method="post" id="form_program" action="/"> {% csrf_token %}
+
+
+                    <div class="form-group col-md-12">
+                        <select class="form-control"
+                                name="order"
+                                title="Order by..."
+                                onchange="this.form.submit()";
+                                id="order">
+                            <option selected disabled>Order by...</option>
+                            <option value="rank">n images in wiki</option>
+                            <option value="TDB">TDB</option>
+                        </select>
+                    </div>
+                </form>
             </div>
+
+            <div aria-label="Page navigation example text-center">
+              <ul class="pagination justify-content-center">
+                  {% if ids.has_previous %}
+                  <li class="step-links page-item">
+                      <a class="page-link" href="?page=1">&laquo; first</a>
+                  </li>
+                  <li class="step-links page-item">
+                      <a class="page-link"  href="?page={{ ids.previous_page_number }}">previous</a>
+                  </li>
+                  {% endif %}
+              <li class="current page-item active">
+                  <a class="page-link" >Page {{ ids.number }} of {{ ids.paginator.num_pages }}</a>
+              </li>
+
+              {% if ids.has_next %}
+              <li class="step-links page-item">
+                  <a class="page-link"  href="?page={{ ids.next_page_number }}">next</a>
+              </li>
+              <li class="step-links page-item">
+                  <a class="page-link"  href="?page={{ ids.paginator.num_pages }}">last &raquo;</a>
+                <li>
+              {% endif %}
+              </span>
+              </ul>
+            </nav>
         </div>
     </div>
 
 </main>
 
 {% endblock %}
-

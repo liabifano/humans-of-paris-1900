@@ -2,12 +2,37 @@
 {% load static %}
 
 {% block body %}
-<br><br>
-<form method="post" action="" id="form-upload" enctype="multipart/form-data"/>{% csrf_token %}
-<input  type="file" name="image" accept=".png">
-<button id="submit-image" type="submit" class="btn btn-secundary active"
-        form="form-upload" value="submit" aria-pressed="true">Upload Image
-</button>
-</form>
-<br><br>
+
+<style>
+.custom{
+  height: 500px
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  padding-top: 1rem;
+}
+
+</style>
+<div class="row mb-3">
+  <div class="text-center form-group custom col-md-4"></div> 
+  <div class="text-center form-group custom col-md-4">
+
+    <h1>Upload your photo</h1>
+    <p>no worries, we don't store your photo! It will be forgotten after processing</p>
+    <hr>
+    <form method="post" action="" id="form-upload" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div>
+        <input type="file" name="image" accept=".png">
+      </div>
+      <br>
+      <button id="submit-image" type="submit" class="btn btn-outline-secondary"
+              form="form-upload" value="submit" aria-pressed="true">
+              Upload Image
+      </button>
+
+    </form>
+  </div>
+</div>
 {% endblock %}
