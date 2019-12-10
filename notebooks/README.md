@@ -8,7 +8,7 @@ Output :
 - data/named_singles.pkl      : img id, title, subject, name-year (single-portrait images with named subjects)
 - data/id_name.pkl            : name-year, list of image ids
 
-### get_bnf : Query data.bnf.fr SPARQL and get data.bnf page link (and some other infos) for each person
+### get_bnf : Query data.bnf.fr SPARQL and get data.bnf page link (and some other infos) for each person (takes hours to run)
 read :
 - id_name.pkl
 
@@ -30,7 +30,7 @@ read:
 output:
 - data/bnf_tags.pkl : name-year, list of tags
 
-### get_wiki : fetch wikipedia articles (en/fr) for each person
+### get_wiki : fetch wikipedia articles (en/fr) for each person (takes hours to run)
 read :
 - data/id_name.pkl
 output : 
