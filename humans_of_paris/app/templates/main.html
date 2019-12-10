@@ -18,8 +18,8 @@
                             onchange="this.form.submit()";
                             id="order">
                         <option selected disabled>Order by...</option>
-                        <option value="rank">n images in wiki</option>
-                        <option value="TDB">TDB</option>
+                        <option value="n_images_wiki">n images in wiki</option>
+                        <option value="summary_size">summary size</option>
                     </select>
                 </div>
             </form>
@@ -33,9 +33,17 @@
                 {% for record in ids %}
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <img src="/static/images/{{ record.id }}.jpg" width="100%" height="225">
+                        <img src="/static/img_full/{{ record.id }}.png" width="100%" height="300">
                         <div class="card-body">
-                            <p class="card-text"><a href="/record/{{ record.id }}">{{ record.id }}</a></p>
+                            <p class="card-text"><a href="/record/{{ record.id }}">{{ record.person.name }}</a></p>
+                            <p class="text-muted">
+                                {% if record.gender %}
+                                #{{ record.gender }};
+                                {% endif %}
+                                {% if record.tags_set.first.tag %}
+                                #{{ record.tags_set.first.tag }}
+                                {% endif %}
+                            </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <!--<small class="text-muted">{{ record.tags }}</small>-->
                             </div>

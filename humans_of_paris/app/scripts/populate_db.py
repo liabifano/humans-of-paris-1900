@@ -3,8 +3,11 @@ import os
 import pickle
 
 import pandas as pd
+import numpy as np
 
 from app.models import Gallica, Wiki, Tags, Person
+from humans_of_paris.settings import STATICFILES_DIRS
+
 
 
 RAW_DATA_PATH = os.path.join(os.path.abspath(os.path.join(__file__, '../../../../')),
@@ -16,6 +19,9 @@ NOTEBOOK_DATA_PATH = os.path.join(os.path.abspath(os.path.join(__file__, '../../
 
 
 def run():
+    images_path = os.path.join(STATICFILES_DIRS[0], 'img_full')
+    ids_with_images = [x.split('.')[0] for x in os.listdir(images_path)]
+
     gallica_metadata = pd.read_pickle(RAW_DATA_PATH)
     image_dataframe = pd.DataFrame(gallica_metadata['dc:identifier']
                                    .map(lambda x: x[0] if type(x) == list else x))\
@@ -68,15 +74,23 @@ def run():
         this_gallica = list(this_gallica.T.to_dict().values())
         this_wiki = list(wiki[wiki.name == name][['wiki_url', 'english', 'french', 'n_images', 'summary', 'rank']].T.to_dict().values())
 
+        p = Person(**person)
+        p.save()
+
         for gg in this_gallica:
-            gg['person'] = p
-            g = Gallica(**gg)
-            g.save()
-            this_tag = list(tags[tags.id == gg['id']].T.to_dict().values())
-            for tt in this_tag:
-                tt['gallica'] = g
-                del tt['id']
-                Tags(**tt).save()
+            if gg['id'] in ids_with_images:
+                this_tag = list(tags[tags.id == gg['id']].T.to_dict().values())
+                gg['person'] = p
+                gg['n_images_wiki'] = this_wiki[0]['n_images'] if this_wiki else np.nan
+                gg['summary_size'] = len(this_wiki[0]['summary']) if this_wiki else np.nan
+                gg['gender'] = person['gender']
+                g = Gallica(**gg)
+                g.save()
+
+                for tt in this_tag:
+                    tt['gallica'] = g
+                    del tt['id']
+                    Tags(**tt).save()
 
         for ww in this_wiki:
             ww['person'] = p

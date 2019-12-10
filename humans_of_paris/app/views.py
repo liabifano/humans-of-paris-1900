@@ -17,7 +17,7 @@ def record(request, id):
 
 
 def home(request):
-    DEFAULT_ORDER = 'rank'
+    DEFAULT_ORDER = 'n_images_wiki'
     tags =[x[0] for x in Tags.objects.order_by().values_list('tag').distinct().iterator()]
 
     if request.method=='POST':
@@ -27,22 +27,19 @@ def home(request):
 
         elif request.POST.get('order'):
             new_order = request.POST.get('order')
-            gallicas = [list(x.person.gallica_set.values()) for x in Wiki.objects.all().order_by(new_order).iterator()]
-            gallicas = [g[0] for g in gallicas if g]
-            ids = Paginator(gallicas, 9)
+            ids = Paginator(Gallica.objects.all().order_by('-' + new_order), 9)
 
         else:
-            ids = Paginator(Gallica.objects.order_by(DEFAULT_ORDER), 9)
+            ids = Paginator(Gallica.objects.all().order_by('-' + DEFAULT_ORDER), 9)
 
     else:
-        gallicas = [list(x.person.gallica_set.values()) for x in Wiki.objects.all().order_by(DEFAULT_ORDER).iterator()]
-        gallicas = [g[0] for g in gallicas if g]
-        ids = Paginator(gallicas, 9)
+
+        ids = Paginator(Gallica.objects.all().order_by('-' + DEFAULT_ORDER), 9)
 
     page = request.GET.get('page')
     ids = ids.get_page(page)
 
-    context = {'tags': tags, 'ids': ids}
+    context = {'ids': ids, 'tags': tags}
 
     return render(request, 'main.html', context)
 
