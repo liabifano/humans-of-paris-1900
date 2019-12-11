@@ -50,3 +50,22 @@ read:
 output:
 - data/merged_dataframe.pkl : chosen id, name-year, list of ids, title, wiki summary contents, rank, age, gender
           
+## Processing Images
+
+### extract age and gender
+read :
+- named_subjects.pkl
+
+output:
+- age_gender_labels.json: left, top, right, bottom, width, height, gender, age, number, id, name
+
+### face map generation
+read:
+- age_gender_labels.json
+- faces.json (see scripts)
+
+output:
+- images/ folder : images used to display facemap
+- ../humans_of_paris/app/static/clustered.json : clusters used for facemap
+
+### remaining cleaning is done in scripts! generation of facial vectors & cropped full images
