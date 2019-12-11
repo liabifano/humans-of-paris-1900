@@ -13,29 +13,23 @@
             color:#504947;
         }
 
+        p, a {
+          font-family: "Quando";
+          color:black;
+        }
+
+.form-control{
+  width:auto;
+  font-family: "Quando";
+  /* background-color: #504947; */
+  border-color: #504947;
+}
+
     </style>
 
 <main role="main">
 
     <div class="album py-5 bg-light">
-
-        <div id="#forms">
-            <form method="post" id="form_program" action="/"> {% csrf_token %}
-
-
-                <div class="form-group col-md-12">
-                    <select class="form-control"
-                            name="order"
-                            title="Order by..."
-                            onchange="this.form.submit()";
-                            id="order">
-                        <option selected disabled>Order by...</option>
-                        <option value="n_images_wiki">n images in wiki</option>
-                        <option value="summary_size">summary size</option>
-                    </select>
-                </div>
-            </form>
-        </div>
 
         <div class="container">
 
@@ -45,10 +39,11 @@
                 {% for record in ids %}
                     {% if record.id %}
                 <div class="col-md-4">
+                  <a href="/record/{{ record.id }}">
                     <div class="card mb-4 shadow-sm">
                         <img src="/static/img_full/{{ record.id }}.png" height="300" style="object-fit:cover">
                         <div class="card-body">
-                            <p class="card-text"><a href="/record/{{ record.id }}">{{ record.person.name }}</a></p>
+                            <p class="card-text">{{ record.person.name }}</p>
                             <p class="text-muted">
                                 {% if record.gender %}
                                 {{ record.gender }}
@@ -60,12 +55,29 @@
                         </div>
 
                     </div>
+                    </a>
                 </div>
                     {% endif %}
                 {% endfor %}
             </div>
             <div aria-label="Page navigation example text-center">
                 <ul class="pagination justify-content-center">
+                  <div id="#forms">
+                      <form method="post" id="form_program" action="/"> {% csrf_token %}
+                          <div class="form-group col-md-4" style="width:auto">
+                              <select class="form-control"
+                                      name="order"
+                                      title="Order by..."
+                                      onchange="this.form.submit()";
+                                      id="order">
+                                  <option selected disabled>Sort by </option>
+                                  <option value="n_images_wiki">Number of Images</option>
+                                  <option value="summary_size">Length of Wikipedia Article</option>
+                              </select>
+                          </div>
+                      </form>
+                  </div>
+
                     {% if ids.has_previous %}
                         <li class="step-links page-item">
                             <a class="page-link" href="?page=1">&laquo; first</a>
@@ -86,12 +98,16 @@
                             <a class="page-link"  href="?page={{ ids.paginator.num_pages }}">last &raquo;</a>
                         </li>
                     {% endif %}
-                    </span>
                 </ul>
-                </nav>
+
             </div>
 
+
+
         </div>
+
+
+
     </div>
 
 </main>
