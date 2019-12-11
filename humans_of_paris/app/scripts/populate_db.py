@@ -42,6 +42,8 @@ def run():
     wiki_fr = pickle.load(pickle_in)
 
 
+    import pdb; pdb.set_trace()
+
     persons = list(bnf_table_full[['name', 'bnf_link', 'gender',
                                    'note', 'country', 'lang', 'born', 'died']].T.to_dict().values())
 
