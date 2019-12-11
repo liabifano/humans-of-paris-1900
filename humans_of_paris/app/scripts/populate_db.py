@@ -3,101 +3,91 @@ import os
 import pickle
 
 import pandas as pd
-import numpy as np
 
 from app.models import Gallica, Wiki, Tags, Person
-from humans_of_paris.settings import STATICFILES_DIRS
 
 
 NOTEBOOK_DATA_PATH = os.path.join(os.path.abspath(os.path.join(__file__, '../../../../')),
                                   'notebooks/data')
 
 
+def get_avg_text(x, y):
+    x = x if pd.notnull(x) else ''
+    y = y if pd.notnull(y) else ''
+
+    return len(x+y) / 2
+
+def get_wiki_text(x, y):
+    if pd.notnull(x):
+        return x
+    elif pd.notnull(y):
+        return y
+
+    return ''
+
 
 def run():
-    images_path = os.path.join(STATICFILES_DIRS[0], 'img_full')
-    ids_with_images = [x.split('.')[0] for x in os.listdir(images_path)]
-
     gallica_metadata = pd.read_pickle(os.path.join(NOTEBOOK_DATA_PATH, 'raw_df.pkl'))
     image_dataframe = pd.DataFrame(gallica_metadata['dc:identifier']
                                    .map(lambda x: x[0] if type(x) == list else x))\
         .rename(columns={'dc:identifier':'identifier'})
-    gallica_metadata['id'] = image_dataframe
+    gallica_metadata['gallica_url'] = image_dataframe
+    gallica_metadata = gallica_metadata.rename(columns={'dc:date': 'date'})
 
-    pickle_in = open(os.path.join(NOTEBOOK_DATA_PATH, 'bnf_table_full.pkl'), 'rb')
-    bnf_table_full = pickle.load(pickle_in)
+    pickle_in = open(os.path.join(NOTEBOOK_DATA_PATH, 'merged_dataframe.pkl'), 'rb')
+    merged_dataframe = pickle.load(pickle_in)
 
-    pickle_in = open(os.path.join(NOTEBOOK_DATA_PATH, 'named_singles.pkl'), 'rb')
-    named_singles = pickle.load(pickle_in)
+    merged_dataframe = merged_dataframe.rename(columns={'weight': 'n_images_wiki',
+                                                        'url_fr': 'wiki_fr_link',
+                                                        'id': 'gallica_url'})
+    merged_dataframe['gallica_identifier'] = merged_dataframe.gallica_url.apply(lambda x: x.split('/')[-1] if pd.notnull(x) else '')
 
-    pickle_in = open(os.path.join(NOTEBOOK_DATA_PATH, 'bnf_tags.pkl'), 'rb')
-    tag_name = pickle.load(pickle_in)
-    tags = tag_name.explode('tags')
-    tags = tags[pd.notnull(tags.tags)].rename(columns={'tags': 'tag'})
+    merged_dataframe['summary_size'] = merged_dataframe.apply(lambda x: get_avg_text(x['wiki_en_text'], x['wiki_fr_text']), axis=1)
+    merged_dataframe['wiki_text'] = merged_dataframe.apply(lambda x: get_wiki_text(x['wiki_en_text'], x['wiki_fr_text']), axis=1)
 
-    pickle_in = open(os.path.join(NOTEBOOK_DATA_PATH, 'wiki_en_summaries.pkl'), 'rb')
-    wiki_en = pickle.load(pickle_in)
+    ids_gallica = merged_dataframe.explode('id_list')[['name', 'id_list']].rename(columns={'id_list': 'gallica_url'})
+    ids_gallica['gallica_id'] = ids_gallica['gallica_url'].apply(lambda x: x.split('/')[-1] if pd.notnull(x) else '')
+    ids_gallica = ids_gallica[ids_gallica['gallica_id']!='']
+    ids_gallica = gallica_metadata.merge(ids_gallica)[['gallica_url', 'gallica_id', 'date', 'name']]
 
-    pickle_in = open(os.path.join(NOTEBOOK_DATA_PATH, 'wiki_fr_summaries.pkl'), 'rb')
-    wiki_fr = pickle.load(pickle_in)
+    tags = merged_dataframe.explode('tags')[['name', 'tags']].rename(columns={'tags': 'tag'})
 
-
-    import pdb; pdb.set_trace()
-
-    persons = list(bnf_table_full[['name', 'bnf_link', 'gender',
-                                   'note', 'country', 'lang', 'born', 'died']].T.to_dict().values())
-
-    names_gallica = gallica_metadata.merge(named_singles)
-
-    wiki_en = wiki_en.rename(columns={'rank_en': 'rank'})
-    wiki_en['english'] = True
-    wiki_en['french'] = False
-
-    wiki_fr = wiki_fr.rename(columns={'summary_fr': 'summary', 'weight_fr': 'weight',
-                                      'rank_en': 'rank', 'url_fr': 'url'})
-    wiki_fr['english'] = False
-    wiki_fr['french'] = True
-
-    wiki = wiki_en.append(wiki_fr).drop_duplicates('url')
-    wiki = wiki.rename(columns={'url': 'wiki_url', 'weight': 'n_images'})
+    persons = list(merged_dataframe[['name',
+                                     'gallica_url',
+                                     'bnf_link',
+                                     'note',
+                                     'gender',
+                                     'gender_estimate',
+                                     'age_estimate',
+                                     'summary_size',
+                                     'n_images_wiki',
+                                     'gallica_identifier']].T.to_dict().values())
 
     for person in persons:
         name = person['name']
         p = Person(**person)
         p.save()
-        this_gallica = names_gallica[names_gallica.name == name]
-        this_gallica = this_gallica.rename(columns={'id': 'gallica_url', 'dc:date': 'date'})[['gallica_url', 'date']]
-        this_gallica['id'] = this_gallica['gallica_url'].apply(lambda x: x.split('/')[-1])
-        this_gallica = list(this_gallica.T.to_dict().values())
-        this_wiki = list(wiki[wiki.name == name][['wiki_url', 'english', 'french', 'n_images', 'summary', 'rank']].T.to_dict().values())
-        this_tags = (tags[tags['name'] == name].T.to_dict().values())
 
-        p = Person(**person)
-        p.save()
+        wiki = list(merged_dataframe[merged_dataframe.name == name][['wiki_en_link', 'wiki_fr_link',
+                                                                     'wiki_en_text', 'wiki_fr_text', 'wiki_text',
+                                                                     'summary_size', 'n_images_wiki']].T.to_dict().values())[0]
+        wiki['person'] = p
+        w = Wiki(**wiki)
+        w.save()
 
-        for gg in this_gallica:
-            if gg['id'] in ids_with_images:
-                gg['person'] = p
-                gg['n_images_wiki'] = this_wiki[0]['n_images'] if this_wiki else np.nan
-                gg['summary_size'] = len(this_wiki[0]['summary']) if this_wiki else np.nan
-                gg['gender'] = person['gender']
-                g = Gallica(**gg)
-                g.save()
+        this_gallicas = ids_gallica[ids_gallica.name == name]
+        this_gallicas = list(this_gallicas[['gallica_url', 'gallica_id', 'date']]
+                             .T.to_dict().values())
 
-        for ww in this_wiki:
-            ww['person'] = p
-            Wiki(**ww).save()
+        this_tags = tags[tags.name == name]
+        this_tags = list(this_tags[['tag']].T.to_dict().values())
 
-        for tt in this_tags:
-            tt['person'] = p
-            del tt['name']
-            Tags(**tt).save()
+        for gallica in this_gallicas:
+            gallica['person'] = p
+            g = Gallica(**gallica)
+            g.save()
 
-
-
-
-
-
-
-
-
+        for tag in this_tags:
+            tag['person'] = p
+            t = Tags(**tag)
+            t.save()
