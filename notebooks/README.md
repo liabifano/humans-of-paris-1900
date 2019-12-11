@@ -55,9 +55,11 @@ output:
 ### extract age and gender
 read :
 - named_subjects.pkl
+- data/bnf_table_full.pkl
 
 output:
 - age_gender_labels.json: left, top, right, bottom, width, height, gender, age, number, id, name
+- data/age_gender_labeles_augmented.json same as above but with groundtruth gender lables added
 
 ### face map generation
 read:
