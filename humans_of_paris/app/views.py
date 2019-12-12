@@ -1,7 +1,7 @@
 import os
 import subprocess
 import ast
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from app.models import Gallica, Tags, Person, Wiki
 from django.core.paginator import Paginator
 
@@ -21,6 +21,19 @@ def person(request, name):
     return render(request, 'person.html', context)
 
 
+def tag(request, tag):
+    ALL_TAGS = [x[0] for x in Tags.objects.order_by().values_list('tag').distinct().iterator()]
+    ids = Paginator([x.person for x in Tags.objects.all().filter(tag=tag).iterator()], 9)
+
+    page = request.GET.get('page')
+    ids = ids.get_page(page)
+
+    context = {'persons': ids, 'tags': ALL_TAGS}
+
+    return render(request, 'main.html', context)
+
+
+
 def home(request):
     ALL_TAGS = [x[0] for x in Tags.objects.order_by().values_list('tag').distinct().iterator()]
     DEFAULT_ORDER = 'n_images_wiki'
@@ -28,8 +41,7 @@ def home(request):
     if request.method=='POST':
         if request.POST.get('myTag'):
             tag = request.POST.get('myTag')
-            ids = Paginator([x.person
-                             for x in Tags.objects.all().filter(tag=tag).iterator()], 9)
+            return redirect('tag/{}'.format(tag))
 
         elif request.POST.get('order'):
             new_order = request.POST.get('order')

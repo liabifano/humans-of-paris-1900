@@ -85,7 +85,7 @@ def run():
                              .T.to_dict().values())
 
         this_tags = tags[tags.name == name]
-        this_tags = list(this_tags[['tag']].T.to_dict().values())
+        this_tags = [{'tag': t} for t in this_tags[['tag']].values.reshape(len(this_tags, ))]
 
         for gallica in this_gallicas:
             gallica['person'] = p
