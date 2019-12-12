@@ -112,3 +112,4 @@ venv.bak/
 
 openface/
 humans_of_paris/app/static/tmp/yourphoto.png
+humans_of_paris/app/migrations/0001_initial.py
