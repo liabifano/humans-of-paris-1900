@@ -62,3 +62,5 @@ If you want to use the environment with jupyter notebook run:
  python -m ipykernel install --user --name humans-of-paris --display-name "Humans of Paris"
  ```
  and then select Humans of Paris on the top of your notebook.
+ 
+ You can also find a detailed description of each notebook [here](https://github.com/liabifano/humans-of-paris-1900/blob/master/notebooks/README.md)

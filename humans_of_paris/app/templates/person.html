@@ -42,7 +42,7 @@
           <p>Estimated Age in Photo: {{ person.age_estimate|floatformat }}</p>
             <h4>Tags</h4>
             {% for tag in person_tags %}
-                <span class="badge badge-secondary">{{ tag.tag }}</span>
+                <a href="/tag/{{ tag.tag }}"><span class="badge badge-secondary">{{ tag.tag }}</span></a>
             {% endfor %}
 
             <h4>Outside Resources</h4>
