@@ -32,19 +32,15 @@
 
                 <div class="col-md-8">
                     <div class="row">
-                        {% for record in ids %}
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm">
-                                <img src="/static/images/{{ record }}.jpg" width="100%" height="225">
-                                <div class="card-body">
-                                    <p class="card-text"><a href="/record/{{ record }}">{{ record }}</a></p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <!--<small class="text-muted">{{ record.tags }}</small>-->
+                        {% for person in persons %}
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm">
+                                    <img src="/static/img_full/{{ person.gallica_identifier }}.png" height="300" style="object-fit:cover">
+                                    <div class="card-body">
+                                        <a href="/person/{{ person.name }}"><p class="card-text">{{ person.name }}</p></a>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
                         {% endfor %}
                 </div>
 

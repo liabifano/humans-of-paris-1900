@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}{{ person.name }}{% endblock %}
+
+{% block body %}
+
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+            padding-top: 1rem;
+        }
+    </style>
+    <div class="text-center" style='padding-'>
+    <h2>{{ person.name }}</h2>
+    <hr>
+
+    <div class="row">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <img src="/static/images/{{ person.gallica_identifier }}.jpg" height="225">
+        </div>
+
+        <div class="col-md-4">
+            <p>{{ person.wiki_set.first.wiki_text }}</p>
+        </div>
+        <div class="col-md-4">
+            <h4>Tags</h4>
+            {% for tag in person_tags %}
+                <span class="badge badge-secondary">{{ tag.tag }}</span>
+            {% endfor %}
+
+            <h4>other info</h4>
+            <p><a href="{{ person.bnf_link }}" target="_blank">bnf link</a></p>
+        {% if person.wiki_set.first.wiki_en_link %}
+            <p><a href="{{ person.wiki_set.first.wiki_en_link }}" target="_blank">wikipedia</a></p>
+        {% else %}
+            <p><a href="{{ person.wiki_set.first.wiki_fr_link }}" target="_blank">wikipedia</a></p>
+        {% endif %}
+            <p>Gender: {{ person.gender }} ({{ person.gender_estimate|floatformat }})</p>
+            <p>Age Estimated: {{ person.age_estimate|floatformat }}</p>
+        </div>
+
+    </div>
+        {% for gallica in gallicas %}
+            <div class="col-md-2">
+                <div class="card mb-4 shadow-sm">
+                    <img src="/static/img_full/{{ gallica.gallica_id }}.png" height="150" style="object-fit:cover">
+                    <div class="card-body">
+                        <a href="{{ gallica.gallica_url }}" target="_blank"><p class="card-text">{{ person.name }}</p></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+    <div>
+{% endblock %}

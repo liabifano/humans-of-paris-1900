@@ -28,36 +28,23 @@
     </style>
 
 <main role="main">
-
     <div class="album py-5 bg-light">
-
         <div class="container">
-
-
             <div class="row">
-
-                {% for record in ids %}
-                    {% if record.id %}
+                {% for person in persons %}
                 <div class="col-md-4">
-                  <a href="/record/{{ record.id }}">
                     <div class="card mb-4 shadow-sm">
-                        <img src="/static/img_full/{{ record.id }}.png" height="300" style="object-fit:cover">
+                        <img src="/static/img_full/{{ person.gallica_identifier }}.png" height="300" style="object-fit:cover">
                         <div class="card-body">
-                            <p class="card-text">{{ record.person.name }}</p>
-                            <p class="text-muted">
-                                {% if record.gender %}
-                                {{ record.gender }}
+                            <a href="/person/{{ person.name }}"><p class="card-text">{{ person.name }}</p></a>
+                            <p class="text-muted cut-text">
+                                {% if person.wiki_set.first.wiki_text %}
+                                {{ person.wiki_set.first.wiki_text }}
                                 {% endif %}
                             </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <!--<small class="text-muted">{{ record.tags }}</small>-->
-                            </div>
                         </div>
-
                     </div>
-                    </a>
                 </div>
-                    {% endif %}
                 {% endfor %}
             </div>
             <div aria-label="Page navigation example text-center">
@@ -78,38 +65,30 @@
                       </form>
                   </div>
 
-                    {% if ids.has_previous %}
+                    {% if persons.has_previous %}
                         <li class="step-links page-item">
                             <a class="page-link" href="?page=1">&laquo; first</a>
                         </li>
                         <li class="step-links page-item">
-                            <a class="page-link"  href="?page={{ ids.previous_page_number }}">previous</a>
+                            <a class="page-link"  href="?page={{ persons.previous_page_number }}">previous</a>
                         </li>
                     {% endif %}
                     <li class="current page-item active">
-                        <a class="page-link" >Page {{ ids.number }} of {{ ids.paginator.num_pages }}</a>
+                        <a class="page-link" >Page {{ persons.number }} of {{ persons.paginator.num_pages }}</a>
                     </li>
 
-                    {% if ids.has_next %}
+                    {% if persons.has_next %}
                         <li class="step-links page-item">
-                            <a class="page-link"  href="?page={{ ids.next_page_number }}">next</a>
+                            <a class="page-link"  href="?page={{ persons.next_page_number }}">next</a>
                         </li>
                         <li class="step-links page-item">
-                            <a class="page-link"  href="?page={{ ids.paginator.num_pages }}">last &raquo;</a>
+                            <a class="page-link"  href="?page={{ persons.paginator.num_pages }}">last &raquo;</a>
                         </li>
                     {% endif %}
                 </ul>
-
             </div>
-
-
-
         </div>
-
-
-
     </div>
-
 </main>
 
 {% endblock %}
