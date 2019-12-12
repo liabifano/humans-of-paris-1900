@@ -57,7 +57,6 @@
                 .attr("class", "u");
             g.append("svg:image")
                 .attr('x', function (d) {
-                  console.log(d[2][0])
                   return d[2][0];
                 })
                 .attr('y', function (d) {
@@ -96,8 +95,6 @@
             svg.selectAll('.u')
               .data(data.users)
               .attr("transform", function (d, i) {
-                console.log(ss)
-                console.log(tx)
                 var x= (d[2][0]*(ss-1))+tx
                 var y = (d[2][1]*(ss-1))+ty
                   return "translate(" + x + "," + y +")";
@@ -118,11 +115,12 @@
                 // setInterval(step, 0);
                 // step();
             });
+
+            alert('double click on image to go to the persons page')
         });
     </script>
-
-<div id="embed">
-    <svg></svg>
+  <div id="embed">
+    <svg width=1000 height=600></svg>
 </div>
 
 {% endblock %}
