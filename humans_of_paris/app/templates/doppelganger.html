@@ -10,8 +10,11 @@
     font-family: "Quando";
     color:black;
   }
+  card {
+    overflow: hidden;
+  }
 </style>
-    <div class="album py-5 bg-light">
+    <div>
         <div class="container">
 
             <div class="row mb-3">
@@ -36,7 +39,7 @@
                             <div class="col-md-4">
                                 <div class="card mb-4 shadow-sm">
                                     <img src="/static/img_full/{{ person.person.gallica_identifier }}.png" height="300" style="object-fit:cover">
-                                    <div class="card-body">
+                                    <div class="card-body card">
                                         <a href="/person/{{ person.person.name }}"><p class="card-text">{{ person.person.name }}</p></a>
                                         <p>Cosine Distance: {{ person.distance|floatformat }}</p>
                                     </div>
