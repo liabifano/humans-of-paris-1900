@@ -35,9 +35,10 @@
                         {% for person in persons %}
                             <div class="col-md-4">
                                 <div class="card mb-4 shadow-sm">
-                                    <img src="/static/img_full/{{ person.gallica_identifier }}.png" height="300" style="object-fit:cover">
+                                    <img src="/static/img_full/{{ person.person.gallica_identifier }}.png" height="300" style="object-fit:cover">
                                     <div class="card-body">
-                                        <a href="/person/{{ person.name }}"><p class="card-text">{{ person.name }}</p></a>
+                                        <a href="/person/{{ person.person.name }}"><p class="card-text">{{ person.person.name }}</p></a>
+                                        <p>Cosine Distance: {{ person.distance|floatformat }}</p>
                                     </div>
                                 </div>
                             </div>

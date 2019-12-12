@@ -19,5 +19,11 @@ def get_doppelganger(target, k=6):
     distances = distance.cdist([target], matrix, "cosine")[0]
 
     idx = np.argpartition(distances, k)
-    closest_indices = idx[:k]
-    return [x.split('/')[-1] for x in face.iloc[closest_indices].id.tolist()]
+    first_k_distances = distances[idx[:k]]
+    first_k_idx = idx[:k]
+    order = np.argsort(first_k_distances)
+    first_k_idx = first_k_idx[order]
+    first_k_distances = first_k_distances[order]
+    ids = [x.split('/')[-1] for x in face.iloc[first_k_idx].id.tolist()]
+
+    return zip(ids, first_k_distances)

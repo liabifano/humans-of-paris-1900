@@ -10,6 +10,8 @@ from app.models import Gallica, Wiki, Tags, Person
 NOTEBOOK_DATA_PATH = os.path.join(os.path.abspath(os.path.join(__file__, '../../../../')),
                                   'notebooks/data')
 
+IMAGES_FOLDER = os.path.join(os.path.abspath(os.path.join(__file__, '../../static/')), 'img_full')
+
 
 def get_avg_text(x, y):
     x = x if pd.notnull(x) else ''
@@ -34,6 +36,8 @@ def run():
     gallica_metadata['gallica_url'] = image_dataframe
     gallica_metadata = gallica_metadata.rename(columns={'dc:date': 'date'})
 
+    images_folder = [x.split('.')[0] for x in os.listdir(IMAGES_FOLDER)]
+
     pickle_in = open(os.path.join(NOTEBOOK_DATA_PATH, 'merged_dataframe.pkl'), 'rb')
     merged_dataframe = pickle.load(pickle_in)
 
@@ -48,6 +52,7 @@ def run():
     ids_gallica = merged_dataframe.explode('id_list')[['name', 'id_list']].rename(columns={'id_list': 'gallica_url'})
     ids_gallica['gallica_id'] = ids_gallica['gallica_url'].apply(lambda x: x.split('/')[-1] if pd.notnull(x) else '')
     ids_gallica = ids_gallica[ids_gallica['gallica_id']!='']
+    ids_gallica = ids_gallica[ids_gallica.gallica_id.apply(lambda x: x in images_folder)]
     ids_gallica = gallica_metadata.merge(ids_gallica)[['gallica_url', 'gallica_id', 'date', 'name']]
 
     tags = merged_dataframe.explode('tags')[['name', 'tags']].rename(columns={'tags': 'tag'})

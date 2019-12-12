@@ -71,13 +71,14 @@ def yourdoppelganger(request):
         your_vector = ast.literal_eval((ast.literal_eval(your_vector[:-1])['vector']))
 
         closests = get_doppelganger(your_vector)
-        closests_persons = []
+        closest_persons = []
 
-        for id in closests:
-            closests_persons.append(Gallica.objects.all().get(gallica_id=id).person)
+        for id, distance in closests:
+            closest_persons.append(
+                {'person': Gallica.objects.all().get(gallica_id=id).person,
+                 'distance': distance})
 
-
-        context = {'persons': closests_persons,
+        context = {'persons': closest_persons,
                    'your_image': image_path.split('/')[-1]}
 
         return render(request, 'doppelganger.html', context)
