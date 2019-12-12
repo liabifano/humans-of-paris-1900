@@ -18,6 +18,7 @@ def person(request, name):
     context['person'] = Person.objects.all().get(name=name)
     context['person_tags'] = Person.objects.all().get(name=name).tags_set.values()
     context['gallicas'] = Person.objects.all().get(name=name).gallica_set.values()
+    # import pdb; pdb.set_trace()
     return render(request, 'person.html', context)
 
 

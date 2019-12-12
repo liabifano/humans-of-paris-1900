@@ -10,38 +10,49 @@
         }
     </style>
     <div class="text-center" style='padding-'>
-    <h2>{{ person.name }}</h2>
-    <hr>
+        <h2>{{ person.name }}</h2>
+        <hr>
 
-    <div class="row">
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <img src="/static/images/{{ person.gallica_identifier }}.jpg" height="225">
+        <div class="row">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <img src="/static/images/{{ person.gallica_identifier }}.jpg" height="225">
+                </div>
+
+                <div class="col-md-4">
+                    {% ifequal person.wiki_set.first.wiki_text "" %}
+                        <span style="padding-left:600px">Not Found</span>
+                        {% else %}
+                        <p>{{ person.wiki_set.first.wiki_text }}</p>
+                    {% endifequal %}
+                </div>
+                <div class="col-md-4">
+                    <h4>Tags</h4>
+                    {% for tag in person_tags %}
+                        <span class="badge badge-secondary">{{ tag.tag }}</span>
+                    {% endfor %}
+
+                    <h4>other info</h4>
+                    <p><a href="{{ person.bnf_link }}" target="_blank">bnf link</a></p>
+                    {% ifnotequal person.wiki_set.first.wiki_en_link "nan" %}
+                        <p><a href="{{ person.wiki_set.first.wiki_en_link }}" target="_blank">wikipedia</a></p>
+                    {% endifnotequal %}
+                    {% ifnotequal person.wiki_set.first.wiki_fr_link "nan" %}
+                        <p><a href="{{ person.wiki_set.first.wiki_fr_link }}" target="_blank">wikipedia</a></p>
+                    {% endifnotequal %}
+                    <p>Gender: {{ person.gender }} (Score: {{ person.gender_estimate|floatformat }})</p>
+                    <p>Score Age Estimated: {{ person.age_estimate|floatformat }}</p>
+                </div>
+
+            </div>
         </div>
-
-        <div class="col-md-4">
-            <p>{{ person.wiki_set.first.wiki_text }}</p>
-        </div>
-        <div class="col-md-4">
-            <h4>Tags</h4>
-            {% for tag in person_tags %}
-                <span class="badge badge-secondary">{{ tag.tag }}</span>
-            {% endfor %}
-
-            <h4>other info</h4>
-            <p><a href="{{ person.bnf_link }}" target="_blank">bnf link</a></p>
-        {% if person.wiki_set.first.wiki_en_link %}
-            <p><a href="{{ person.wiki_set.first.wiki_en_link }}" target="_blank">wikipedia</a></p>
-        {% else %}
-            <p><a href="{{ person.wiki_set.first.wiki_fr_link }}" target="_blank">wikipedia</a></p>
-        {% endif %}
-            <p>Gender: {{ person.gender }} ({{ person.gender_estimate|floatformat }})</p>
-            <p>Age Estimated: {{ person.age_estimate|floatformat }}</p>
-        </div>
-
     </div>
-        {% for gallica in gallicas %}
-            {% if gallica.gallica_id %}
+
+    <h2>&nbsp; Other Gallica Records</h2>
+    <div class="row mb-4">
+
+    {% for gallica in gallicas %}
+        {% if gallica.gallica_id %}
             <div class="col-md-2">
                 <div class="card mb-4 shadow-sm">
                     <img src="/static/img_full/{{ gallica.gallica_id }}.png" height="150" style="object-fit:cover">
@@ -50,11 +61,11 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
-        {% endfor %}
+        {% endif %}
+    {% endfor %}
     </div>
 
 
 
-    <div>
+
 {% endblock %}
