@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ record.id }}{% endblock %}
+
+{% block body %}
+
+<style>
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    padding-top: 1rem;
+  }
+</style>
+<div class="text-center" style='padding-'>
+  <h2>Joe Dave</h2>
+  <hr>
+  <div class="row mb-3">
+    <div class="col-md-4">
+    <img src="/static/images/{{ record.id }}.jpg" height="225">
+    </div>
+
+    <div class="col-md-4">
+    <p>
+        {{ record.wiki_set.summary_en }}
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt lacus sit amet risus mollis semper. Integer pharetra laoreet odio at dictum. Fusce id magna sit amet leo semper vehicula at et diam. Etiam in nulla laoreet, pellentesque risus quis, imperdiet augue. Donec accumsan vitae risus quis gravida. Nunc accumsan lobortis accumsan. Donec nulla sapien, accumsan et laoreet in, congue ac sapien. Quisque viverra sapien vel sodales volutpat. Quisque nec mi imperdiet, maximus sem ac, lobortis sem. Mauris sed facilisis diam. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+
+        Etiam laoreet egestas nulla ut congue. Nullam sodales lacinia elit non condimentum. In ac risus ac arcu viverra dignissim vitae vehicula elit. Ut et sem tellus. In hac habitasse platea dictumst. Morbi accumsan neque vel libero ornare feugiat. Nam nulla magna, sollicitudin sit amet eros eu, ultrices placerat tortor. Mauris dictum orci fermentum placerat pellentesque. Vivamus pretium luctus blandit. Cras sem quam, vulputate ac turpis eget, ullamcorper fermentum ante. Phasellus elit nisi, blandit vel massa sit amet, aliquet efficitur lectus. Curabitur mollis sapien non laoreet efficitur. Nullam vel convallis nunc. Etiam condimentum eget metus et condimentum. Curabitur pellentesque nisl dolor, at lacinia ipsum tincidunt feugiat. Mauris in mauris nulla.
+
+        Etiam efficitur sit amet risus a venenatis. Suspendisse tellus magna, iaculis quis porta lacinia, semper a velit. Aliquam laoreet nulla vitae libero tempor sodales. Donec gravida odio et metus convallis tempor. Morbi tempor nec turpis ut fringilla. Suspendisse tempus mauris at faucibus faucibus. Fusce vel arcu varius, lobortis quam non, dapibus nisi. Aliquam placerat, odio at congue laoreet, lacus est viverra tortor, at rutrum eros sem eget risus. Vestibulum quis rutrum orci. Quisque accumsan tincidunt ultricies. Mauris commodo vestibulum dolor non gravida. Vivamus venenatis risus eu purus bibendum vulputate in non mauris. Suspendisse viverra gravida tellus, sed tincidunt dui rhoncus quis.
+
+    </p>
+    </div>
+    <div class="col-md-4">
+      <h4>Tags</h4>
+      <p>
+        <span class="badge badge-secondary">example tag</span>
+          <span class="badge badge-secondary">{{ record.tags_set }}</span>
+      </p>
+      <h4>other info</h4>
+      <p>{{ record.id }} </p>
+    </div>
+
+
+  </div>
+<div>
+{% endblock %}
