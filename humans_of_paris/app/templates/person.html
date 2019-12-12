@@ -45,13 +45,13 @@
                 <span class="badge badge-secondary">{{ tag.tag }}</span>
             {% endfor %}
 
-            <h4>other info</h4>
+            <h4>Outside Resources</h4>
             <p><a href="{{ person.bnf_link }}" target="_blank">bnf link</a></p>
             {% ifnotequal person.wiki_set.first.wiki_en_link "nan" %}
-                <p><a href="{{ person.wiki_set.first.wiki_en_link }}" target="_blank">wikipedia</a></p>
+                <p><a href="{{ person.wiki_set.first.wiki_en_link }}" target="_blank">english wikipedia</a></p>
             {% endifnotequal %}
             {% ifnotequal person.wiki_set.first.wiki_fr_link "nan" %}
-                <p><a href="{{ person.wiki_set.first.wiki_fr_link }}" target="_blank">wikipedia</a></p>
+                <p><a href="{{ person.wiki_set.first.wiki_fr_link }}" target="_blank">french wikipedia</a></p>
             {% endifnotequal %}
         </div>
       </div>
