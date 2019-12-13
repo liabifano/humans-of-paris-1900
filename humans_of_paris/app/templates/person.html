@@ -56,14 +56,13 @@
         </div>
       </div>
 
-    <hr>
-
+    <hr style='color:#504947;'>
       <div class="row mb-3" style='padding-left:6rem; padding-right:6rem'>
         {% for gallica in gallicas %}
             {% if gallica.gallica_id %}
             <div class="col-md-2">
                 <div class="card mb-4 shadow-sm">
-                    <img src="/static/img_full/{{ gallica.gallica_id }}.png" height="150" style="object-fit:cover">
+                    <img src="/static/img_full/{{ gallica.gallica_id }}.png" height="150" style="object-fit:cover;object-position:top">
                     <div class="card-body">
                         <a href="{{ gallica.gallica_url }}" target="_blank"><p class="card-text">{{ person.name }}</p></a>
                     </div>
@@ -71,7 +70,6 @@
             </div>
             {% endif %}
         {% endfor %}
-    </div>
     </div>
     </div>
 {% endblock %}
