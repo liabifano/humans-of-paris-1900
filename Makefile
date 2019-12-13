@@ -30,6 +30,8 @@ bootstrap-db:
 	          python humans_of_paris/manage.py migrate app && \
 	          python humans_of_paris/manage.py runscript populate_db"
 
+expose:
+	@bash -c "nc -v ${IP} ${PORT}"
 
 run:
 	@bash -c "source activate humans-of-paris && \
