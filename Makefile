@@ -4,18 +4,16 @@ DOCKER_LABEL=latest
 PROJECT_NAME=humans-of-paris
 TEST_PATH=./
 GIT_MASTER_HEAD_SHA:=$(shell git rev-parse --short=7 --verify HEAD)
+PORT=8000
+IP:=$(shell ipconfig getifaddr en0)
 
 
 help:
 	@echo "install - install project in dev mode using conda"
 	@echo "run - run app locally"
-	@echo "test - run tests quickly within env: $(PROJECT_NAME)"
-	@echo "docker-build - build and run dockerfile"
-	@echo "docker-run - run app in docker"
-	@echo "docker-push - push to remove repository with commit hash attached"
-	@echo "deploy-latest-pushed - deploy last version on docker hub"
-	@echo "clean-build - remove build artifacts"
-	@echo "clean-pyc - remove python artifacts"
+	@echo "expose - expose ip"
+	@echo "docker-build-openface - build openface docker"
+	@echo "docker-run-openface - run openface docker"
 
 
 docker-build:
@@ -26,6 +24,7 @@ docker-run:
 
 bootstrap-db:
 	@bash -c "source activate humans-of-paris && \
+	          export ALLOWED_HOSTS=${IP},localhost,127.0.0.1 && \
 	          printf 'yes' | python humans_of_paris/manage.py reset_db && \
 	          python humans_of_paris/manage.py makemigrations app && \
 	          python humans_of_paris/manage.py migrate app && \
@@ -34,7 +33,9 @@ bootstrap-db:
 
 run:
 	@bash -c "source activate humans-of-paris && \
-    	          python humans_of_paris/manage.py runserver"
+	          export ALLOWED_HOSTS=${IP},localhost,127.0.0.1 && \
+    	      python humans_of_paris/manage.py runserver ${IP}:${PORT}"
+
 
 test: clean-pyc
 	@echo "\n--- If the env $(PROJECT_NAME) doesn't exist, run 'make install' before ---\n"n

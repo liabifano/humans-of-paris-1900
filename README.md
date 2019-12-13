@@ -43,10 +43,11 @@ Open an issue [here](https://github.com/liabifano/humans-of-paris-1900/issues/ne
    git clone https://github.com/liabifano/openface.git
    make docker-build-openface # this might take a while but it's just once
    make docker-run-openface # for doppelganger feature
-   make bootstrap-db
+   make bootstrap-db # run just once is enough
    make run
    ```
-   then open [here](http://127.0.0.1:8000/). We can also skip openface clone and build if you did it once already.
+   We can also skip openface clone and build and bootstrap-db if you did it once already. If you would like to expose
+   the application endpoint you can run `make expose` after `make run`. 
    
 
 If the openface docker is still up, you can run 
