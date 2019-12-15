@@ -82,9 +82,11 @@ def yourdoppelganger(request):
         your_vector = str(subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).communicate()[0]).split('\\n')[3]
         your_vector = ast.literal_eval((ast.literal_eval(your_vector[:-1])['vector']))
 
-        closests = get_doppelganger(your_vector)
-        closest_persons = []
+        all_ids = [x['gallica_id'] for x in Gallica.objects.all().values().iterator()]
 
+        closests = get_doppelganger(your_vector, all_ids)
+
+        closest_persons = []
         for id, distance in closests:
             closest_persons.append(
                 {'person': Gallica.objects.all().get(gallica_id=id).person,
