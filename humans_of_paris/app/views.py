@@ -1,6 +1,7 @@
 import os
 import subprocess
 import ast
+import datetime
 from django.shortcuts import render, redirect
 from app.models import Gallica, Tags, Person, Wiki
 from django.core.paginator import Paginator
@@ -76,7 +77,9 @@ def yourdoppelganger(request):
 
     else:
         image = Image.open(request.FILES['image'])
-        image_path = os.path.join(STATICFILES_DIRS[0], 'tmp/yourphoto.png')
+        # import pdb; pdb.set_trace()
+        now = str(datetime.datetime.today())
+        image_path = os.path.join(STATICFILES_DIRS[0], 'tmp/{}.png'.format(now))
         image.save(image_path)
         cmd = ['curl', '-X', 'POST', '-F', 'image=@{}'.format(image_path), 'http://localhost:5000/get_vector']
         your_vector = str(subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).communicate()[0]).split('\\n')[3]
